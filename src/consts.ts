@@ -32,33 +32,10 @@ export const menuItems = [
   { id: "about", text: "About", href: "/about", svg: "about", target: "_self" }, // About page
   {
     id: "blog",
-    text: "Blogs",
+    text: "博客",
     href: "/blog",
     svg: "blog",
     target: "_self",
-    subItems: [
-      {
-        id: "all",
-        text: "All blogs",
-        href: "/blog",
-        svg: "post",
-        target: "_self",
-      }, // All blog
-      {
-        id: "tech",
-        text: "Tech blogs",
-        href: "/blog/categories/tech",
-        svg: "cube",
-        target: "_self",
-      }, // Technology category
-      {
-        id: "life",
-        text: "Life blogs",
-        href: "/blog/categories/life",
-        svg: "heart",
-        target: "_self",
-      }, // Life category
-    ],
   }, // Blog page with sub-items
 {
     id: "project",
@@ -67,13 +44,6 @@ export const menuItems = [
     svg: "project",
     target: "_self",
   },
-  {
-    id: "friend",
-    text: "Friend",
-    href: "/friend",
-    svg: "friend",
-    target: "_self",
-  }, // Friends page
   {
     id: "contact",
     text: "Contact",
