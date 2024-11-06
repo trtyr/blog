@@ -1,0 +1,136 @@
+---
+title: 如何将 Astro 部署在对象存储上
+description: 本文将介绍如何将 Astro 网站部署到腾讯云对象存储（COS）上，详细步骤包括配置 GitHub Actions 自动化部署。
+pubDate: 11 06 2024
+image: /image/image1.jpg
+categories:
+  - Web
+tags:
+  - Astro
+  - 对象存储
+  - 自动化部署
+---
+## 前言
+
+最近重新调整了一下 Web，最初是 Hexo 框架，通过插件，将 Web 直接部署到腾讯 COS 上。后来看上了 Astro 框架，感觉不错，打算换个玩玩。不过在迁移找教程的时候，发现那些教程都是将代码托管到国外平台，我个人是不太喜欢国外平台那时不时犯病的网络，而 Astro 官方也没有适配国内环境的教程，那就自己写一个吧。
+
+## 实现过程
+
+在 Hexo 中可以装对应的腾讯 COS 插件，可以一键部署，但是我在 Astro 没找到类似的功能。
+
+其实部署静态网站，最简单的方法就是先本地部署，生成一个 `dist` 文件夹，这个文件夹内就是生成静态网站源码。然后再将该文件夹放到对象存储里，对象存储开启静态网站，就能直接访问。不过这个方法不够优雅，而且对于我来说，有点麻烦了。后来看着 Github 发呆，突然想起来 Github 有个 Acitoon 可以自动化执行命令。那么这就简单了。把代码放 Github 上，然后设置 Aciton 代码，每次同步都会执行 Acition，把代码部署，传给对象存储。
+
+### Github 项目拉取
+
+
+首先创建 Github 仓库，在"我的仓库"这里，创建新的仓库
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-1.png)
+
+来到这里
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-2.png)
+
+这里注意，我们不是要创建一个 Github Page 网站，而是单纯的一个代码仓库。新建好后，根据给的代码，把你的项目部署到仓库里。
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-3.png)
+
+之后你的项目就会拉到 Github 上了
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-4.png)
+
+### 对象存储设置
+
+这里使用的是腾讯 COS。首先创建一个桶子
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-5.png)
+
+创建后你会得到
+- 桶名（BUCKET）
+- 所属地域（REGION）
+
+之后我们来到访问管理，找到 API 密钥管理
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-6.png)
+
+创建一个密钥，这样我们就得到了
+- 桶名
+- 所属地域
+- SecretId
+- SecretKey
+
+### Github Action
+
+在 Github仓库里找到设置，设置中我们可以设置 Acition 密钥
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-7.png)
+
+我们新建这几个密钥
+- BUCKET
+- REGION
+- SECRETID
+- SECRETKEY
+
+这一步的目的是避免下面 Action 脚本里出现明文密钥。我们之后点击 Action，创建一个新的工作流程
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-8.png)
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-9.png)
+
+文件名随意，脚本这里我写了一个经过测试能用的
+
+```yml
+name: Upload to COS
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Astro project
+        run: npm run build
+
+      - name: Install coscmd
+        run: sudo pip install coscmd
+
+      - name: Configure coscmd
+        env:
+          SECRET_ID: ${{ secrets.SecretId }}
+          SECRET_KEY: ${{ secrets.SecretKey }}
+          BUCKET: ${{ secrets.BUCKET }}
+          REGION: ${{ secrets.REGION }}
+        run: coscmd config -a $SECRET_ID -s $SECRET_KEY -b $BUCKET -r $REGION
+
+      - name: Upload to COS
+        run: coscmd upload -r -f --delete ./dist/ / --ignore "./.git/*"
+
+```
+
+代码很简单，我这里是用 npm 去 bulid 项目，然后调用 coscmd 去把 `dist` 文件夹上传到对应的存储桶里。将代码粘贴上去后，保存，你就可以看到你的脚本开始运行了
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-10.png)
+
+## 使用演示
+
+我们在修改内容后，直接 VScode 推给 Github 就行
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-11.png)
+
+然后在 Action 里就会有新的工作出现
+
+![](https://img.trtyr.top/images/blog/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E4%B8%8A/%E5%A6%82%E4%BD%95%E5%B0%86%20Astro%20%E9%83%A8%E7%BD%B2%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8-12.png)
+
+然后等着就可以啦。
