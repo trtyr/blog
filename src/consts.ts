@@ -29,6 +29,7 @@ export const CODE_THEME = {
 // Menu items for navigation
 export const menuItems = [
   { id: "home", text: "首页", href: "/", svg: "home", target: "_self" },
+  { id: "about", text: "About", href: "/about", svg: "about", target: "_self" }, // About page
   {
     id: "blog",
     text: "博客",
@@ -44,6 +45,13 @@ export const menuItems = [
     svg: "project",
     target: "_self",
   },
+  {
+    id: "friend",
+    text: "Friend",
+    href: "/friend",
+    svg: "friend",
+    target: "_self",
+  }, // Friends page
   {
     id: "contact",
     text: "Contact",
