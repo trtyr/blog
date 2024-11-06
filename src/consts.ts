@@ -38,25 +38,25 @@ export const menuItems = [
     subItems: [
       {
         id: "all",
-        text: "All blogs",
+        text: "归档",
         href: "/blog",
         svg: "post",
         target: "_self",
       }, // All blog
       {
         id: "tech",
-        text: "Tech blogs",
-        href: "/blog/categories/tech",
+        text: "网络安全",
+        href: "/blog/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/",
         svg: "cube",
         target: "_self",
       }, // Technology category
       {
-        id: "life",
-        text: "Life blogs",
-        href: "/blog/categories/life",
+        id: "exec",
+        text: "靶场练习",
+        href: "/blog/tag/%E9%9D%B6%E5%9C%BA/",
         svg: "heart",
         target: "_self",
-      }, // Life category
+      },
     ],
   }, // Blog page with sub-items
 {
