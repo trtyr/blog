@@ -107,17 +107,27 @@ WD 有一个叫做 `mpcmdrun.exe` 的程序，它可以操作被 WD 处理的文
 
 ![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-14.png)
 
+以下操作需要在管理员权限下查看
+
 查看被隔离的文件列表
 
 ```
 MpCmdRun.exe -Restore -ListAll
 ```
 
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-19.png)
+
 恢复指定名称的文件至原目录
 
 ```
 MpCmdRun.exe -Restore -FilePath C:\test\mimikatz_trunk.zip
 ```
+
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-20.png)
+
+而且恢复后会默认加入白名单。
+
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-21.png)
 
 恢复所有文件至原目录
 
@@ -130,6 +140,10 @@ MpCmdRun.exe -Restore -All
 ```
 MpCmdRun.exe -CheckExclusion -path C:\test
 ```
+
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-22.png)
+
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-23.png)
 
 ## 工具关闭
 
