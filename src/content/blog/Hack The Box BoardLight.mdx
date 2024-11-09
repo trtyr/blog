@@ -2,7 +2,7 @@
 title: Hack The Box BoardLight
 description: Hack The Box BoardLight 靶机 WP
 pubDate: 09 24 2024
-image: https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-8.png
+image: https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-8.png?imageMogr2/format/avif
 categories:
   - 网络安全
 tags:
@@ -15,21 +15,21 @@ Hack The Box BoardLight 靶机
 
 靶机IP：10.10.11.11
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-1.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-1.png?imageMogr2/format/avif)
 
 ## Web 渗透
 
 放 Goby 里扫描
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-5.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-5.png?imageMogr2/format/avif)
 
 发现开启 80 端口，查看 Web 页面
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-2.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-2.png?imageMogr2/format/avif)
 
 发现一个域名
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-3.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-3.png?imageMogr2/format/avif)
 
 ```shell
 board.htb
@@ -37,7 +37,7 @@ board.htb
 
 放进 Host 解析
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-4.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-4.png?imageMogr2/format/avif)
 
 fuzz 一下子域名
 
@@ -45,7 +45,7 @@ fuzz 一下子域名
 .\wfuzz.bat -c -w "E:\Crack\Red_Team\Dict\SecLists\Discovery\DNS\subdomains-top1million-5000.txt" -u "http://board.htb/" -H "Host: FUZZ.board.htb"
 ```
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-6.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-6.png?imageMogr2/format/avif)
 
 把 517 过滤掉
 
@@ -53,31 +53,31 @@ fuzz 一下子域名
 .\wfuzz.bat -c -w "E:\Crack\Red_Team\Dict\SecLists\Discovery\DNS\subdomains-top1million-5000.txt" -u "http://board.htb/" -H "Host: FUZZ.board.htb" --hl 517
 ```
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-7.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-7.png?imageMogr2/format/avif)
 
 得到子域名 `crm.board.htb`，添加到 Host 里，访问
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-8.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-8.png?imageMogr2/format/avif)
 
 得到一个 CMS 的登录界面，CMS 为 `Dolibarr 17.0.0`，查找默认密码
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-9.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-9.png?imageMogr2/format/avif)
 
 可登录
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-10.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-10.png?imageMogr2/format/avif)
 
 发现可以添加网页
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-11.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-11.png?imageMogr2/format/avif)
 
 那就简单了，创建页面 abc
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-12.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-12.png?imageMogr2/format/avif)
 
 创建时提示
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-13.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-13.png?imageMogr2/format/avif)
 
 Website 是定时删除的，这里注意一下。重新创建，编辑 HTML 源，添加命令检查一下能不能执行
 
@@ -85,15 +85,15 @@ Website 是定时删除的，这里注意一下。重新创建，编辑 HTML 源
 <?php echo system("whoami");?>
 ```
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-14.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-14.png?imageMogr2/format/avif)
 
 额，禁止动态命令？大小写绕一下试试？
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-15.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-15.png?imageMogr2/format/avif)
 
 可以了。准备一个 php反弹 shell 来反弹就可以了
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-16.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-16.png?imageMogr2/format/avif)
 
 OK 拿到 shell
 
@@ -105,7 +105,7 @@ OK 拿到 shell
 find / -type f -name "user.txt"
 ```
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-18.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-18.png?imageMogr2/format/avif)
 
 没有？说明在其他用户里，看看数据库配置里有没有啥信息泄露
 
@@ -133,42 +133,42 @@ cat /etc/passwd
 
 没有，看看 Home 下面到底有几个用户
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-19.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-19.png?imageMogr2/format/avif)
 
 有一个 `larissa`。试试登录一下 `larissa/serverfun2$2023!!`
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-20.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-20.png?imageMogr2/format/avif)
 
 登录进来了，找 flag
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-21.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-21.png?imageMogr2/format/avif)
 
 又到了喜闻乐见的 Linux 提权环节
 
 用 `linux-smart-enumeration` 试试。
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-22.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-22.png?imageMogr2/format/avif)
 
 DirtyPipe？试试
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-23.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-23.png?imageMogr2/format/avif)
 
 失败了……看看linPEAS 能出啥
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-24.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-24.png?imageMogr2/format/avif)
 
 额……大差不差，都用不了。然后下面也没啥东西了。然后看见 `enlightenment` 标红。
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-25.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-25.png?imageMogr2/format/avif)
 
 桌面？
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-26.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-26.png?imageMogr2/format/avif)
 
 好了，找 exp 直接利用就行了
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-27.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-27.png?imageMogr2/format/avif)
 
 成功。拿到 flag
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-28.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20BoardLight/BoardLight-28.png?imageMogr2/format/avif)

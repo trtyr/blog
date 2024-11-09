@@ -2,7 +2,7 @@
 title: ATT&CK实战系列 - 红队实战(二)
 description: 红日靶场二
 pubDate: 11 09 2024
-image: https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-36.png
+image: https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-36.png?imageMogr2/format/avif
 categories:
   - 网络安全
 tags:
@@ -16,15 +16,17 @@ tags:
 IP 配置这里不做过多说明，根据机器里的 IP 配置就行。在 `WEB.de1ay.com` 主机中，需要还原为最新快照，登陆时切换用户为: `WEB\de1ay` 密码: `1qaz@WSX` 方可登录
 
 Web 服务在 `C:\Oracle\Middleware\user_projects\domains\base_domain` 下，以管理员身份运行 `statweblogic` 服务
+
 ## WP
 
 ### WebLogic 漏洞利用
 
 目标 IP 为：192.168.111.80。对其进行端口扫描
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-1.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-1.png?imageMogr2/format/avif)
 
 目标开放端口如下
+
 - 135
 - 445
 - 80
@@ -35,27 +37,27 @@ Web 服务在 `C:\Oracle\Middleware\user_projects\domains\base_domain` 下，以
 
 目标开放 445 端口，检测出 OS 为 `Windows Server 2008 R2 Standard 7601 Service Pack 1`，尝试永恒之蓝漏洞，失败
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-2.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-2.png?imageMogr2/format/avif)
 
 目标开放 80 端口，访问 HTTP 服务。结果啥也没有。目标还开放了 7001，WebLogic 服务，尝试访问
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-3.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-3.png?imageMogr2/format/avif)
 
 进行目录爆破
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-4.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-4.png?imageMogr2/format/avif)
 
 得到后台 `http://192.168.111.80:7001/console/login/LoginForm.jsp`
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-5.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-5.png?imageMogr2/format/avif)
 
 尝试弱口令登录，失败。尝试使用历史漏洞攻击，成功执行 `CVE_2016_0638`
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-6.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-6.png?imageMogr2/format/avif)
 
 直接注入一个内存马，这里注入的是冰蝎
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-7.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-7.png?imageMogr2/format/avif)
 
 ### CS 上线
 
@@ -65,15 +67,15 @@ Web 服务在 `C:\Oracle\Middleware\user_projects\domains\base_domain` 下，以
 netsh advfirewall set allprofiles state off
 ```
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-8.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-8.png?imageMogr2/format/avif)
 
 查看进程，确认有没有杀毒软件。
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-9.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-9.png?imageMogr2/format/avif)
 
 存在数字卫士，上传一个 CS 木马，尝试上线
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-10.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-10.png?imageMogr2/format/avif)
 
 上线成功，而且有管理员权限。
 
@@ -81,11 +83,11 @@ netsh advfirewall set allprofiles state off
 
 既然现在有了管理员权限的 shell，那就先把数字卫士给他关了
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-11.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-11.png?imageMogr2/format/avif)
 
 失败，因为 OS 版本过低，尝试直接提权
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-12.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-12.png?imageMogr2/format/avif)
 
 提权成功了，那么其实这个数字卫士目前来说就没啥作用了，不用管它。
 
@@ -93,19 +95,19 @@ netsh advfirewall set allprofiles state off
 
 读取明文密码，结果如下
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-14.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-14.png?imageMogr2/format/avif)
 
 开启目标 3389 端口和远程桌面功能，尝试连接
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-15.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-15.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-16.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-16.png?imageMogr2/format/avif)
 
 ### 域信息收集
 
 查看 `net view`
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-17.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-17.png?imageMogr2/format/avif)
 
 查看域控
 
@@ -113,7 +115,7 @@ netsh advfirewall set allprofiles state off
 net group "domain controllers" /domain
 ```
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-18.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-18.png?imageMogr2/format/avif)
 
 查看域中其他主机
 
@@ -121,15 +123,15 @@ net group "domain controllers" /domain
 net group "domain computers" /domain
 ```
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-19.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-19.png?imageMogr2/format/avif)
 
 对当前网段进行主机发现，结果如下
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-20.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-20.png?imageMogr2/format/avif)
 
 获取 hash 和明文密码，结果如下
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-21.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-21.png?imageMogr2/format/avif)
 
 ### SMB 横向
 
@@ -137,7 +139,7 @@ net group "domain computers" /domain
 
 DC 上线
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-22.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-22.png?imageMogr2/format/avif)
 
 PC 上线失败
 
@@ -145,55 +147,55 @@ PC 上线失败
 
 在 CS 上尝试各种 SMB 横向无果；
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-23.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-23.png?imageMogr2/format/avif)
 
 在 CS 上利用插件扫描 MS17-010，成功，在将 CS 上线主机派生到 MSF 中，在 MSF 进行漏洞利用，失败，提示目标主机不是 64 位
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-24.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-24.png?imageMogr2/format/avif)
 
 使用 MS17-010 命令执行模块，直接失败
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-25.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-25.png?imageMogr2/format/avif)
 
 没头绪的时候，发现 PC 主机有外网 IP `192.168.111.201`，而且开放了 3389 端口，利用目前收集的各种明文账户密码挨个测试，成功使用下面这条登录
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-26.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-26.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-27.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-27.png?imageMogr2/format/avif)
 
 登录后要求修改密码，修改后登录界面如下
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-28.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-28.png?imageMogr2/format/avif)
 
 等待数秒，登录成功！
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-29.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-29.png?imageMogr2/format/avif)
 
 关闭防火墙，关闭 360，上传木马，成功上线
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-30.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-30.png?imageMogr2/format/avif)
 
 这样靶场的三台主机就全部上线了！最终拓扑如下
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-31.png)
-
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-31.png?imageMogr2/format/avif)
 
 ### 黄金票据
 
 我们获得了 `krbtgt` 用户的 Hash，可以制造黄金票据，原理就是 kerberos 协议的内容，自行了解，这里不做介绍
 
 我们需要拿到两个东西
+
 - `krbtgt` 用户的 Hash：`82dfc71b72a11ef37d663047bc2088fb`
 - 域的 SID：`S-1-5-21-2756371121-2868759905-3853650604-1001`
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-32.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-32.png?imageMogr2/format/avif)
 
 我们现在在 Web 主机生成黄金票据
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-33.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-33.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-34.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-34.png?imageMogr2/format/avif)
 
 我们可以直接操作其他主机
 
-![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-35.png)
+![](https://img.trtyr.top/images/blog/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%BA%8C%29-35.png?imageMogr2/format/avif)

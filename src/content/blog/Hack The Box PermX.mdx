@@ -2,7 +2,7 @@
 title: Hack The Box PermX
 description: Hack The Box PermX 靶机 WP
 pubDate: 09 24 2024
-image: https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-2.png
+image: https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-2.png?imageMogr2/format/avif
 categories:
   - 网络安全
 tags:
@@ -19,15 +19,15 @@ Hack The Box PermX 靶机
 
 放 Goby 里扫
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-3.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-3.png?imageMogr2/format/avif)
 
 发现 80 端口开启，访问 Web 页面
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-1.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-1.png?imageMogr2/format/avif)
 
 跳转至 `permx.htb`，添加至 Hosts
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-2.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-2.png?imageMogr2/format/avif)
 
 没啥东西，fuzz 子域名
 
@@ -35,101 +35,101 @@ Hack The Box PermX 靶机
 .\wfuzz.bat -c -w "E:\Crack\Red_Team\Dict\SecLists\Discovery\DNS\subdomains-top1million-5000.txt" -u "http://permx.htb/" -H "Host: FUZZ.permx.htb" --hl 9
 ```
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-4.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-4.png?imageMogr2/format/avif)
 
 得到子域名 `lms.permx.htb`，添加到 hosts
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-5.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-5.png?imageMogr2/format/avif)
 
 查找默认密码
 
 没找到。弱口令试试，`admin/admin`
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-6.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-6.png?imageMogr2/format/avif)
 
 跳转到这里，可能有SQL 注入？
 
 没成功，找一下其他 nday
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-7.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-7.png?imageMogr2/format/avif)
 
 发现一个 RCE
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-8.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-8.png?imageMogr2/format/avif)
 
 需要管理账号密码，没用。接着找
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-9.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-9.png?imageMogr2/format/avif)
 
 找到另一个 RCE
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-10.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-10.png?imageMogr2/format/avif)
 
 失败。目录扫描试试
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-11.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-11.png?imageMogr2/format/avif)
 
 发现个 `web` 目录
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-12.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-12.png?imageMogr2/format/avif)
 
 没用，看看 `robots`
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-13.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-13.png?imageMogr2/format/avif)
 
 发现一个文档
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-14.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-14.png?imageMogr2/format/avif)
 
 当前版本是 1.11。接着找 nday
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-16.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-16.png?imageMogr2/format/avif)
 
 这里倒是一堆，挨个试吧
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-15.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-15.png?imageMogr2/format/avif)
 
 CVE-2023-4220 这个洞，确实找到了一个 `bigUpload.php`
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-17.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-17.png?imageMogr2/format/avif)
 
 不过看不了源码，用他给的 exp 上 shell
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-18.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-18.png?imageMogr2/format/avif)
 
 用 nc 接一下
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-19.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-19.png?imageMogr2/format/avif)
 
 ## 内网渗透
 
 找 flag
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-20.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-20.png?imageMogr2/format/avif)
 
 没有，找 home 下的用户
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-21.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-21.png?imageMogr2/format/avif)
 
 有一个 `mtz` 用户，找一下网站配置文件
 
 在 `/var/www/chamilo/app/config/configuration.php` 找到如下内容
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-22.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-22.png?imageMogr2/format/avif)
 
 得到 `chamilo/03F6lY3uXAP2bkW8`，试着登录一下 `mtz/03F6lY3uXAP2bkW8`
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-23.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-23.png?imageMogr2/format/avif)
 
 ok，登录进来了，得到 flag
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-24.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-24.png?imageMogr2/format/avif)
 
 上几个工具，全都用不了
 
 常规看一下
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-25.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-25.png?imageMogr2/format/avif)
 
 `/opt/acl.sh` 可访问
 
@@ -161,11 +161,11 @@ fi
 
 脚本功能是在 `/home/mtz/` 下改权限。看一下 `/home/mtz` 下的权限
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-26.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-26.png?imageMogr2/format/avif)
 
 哎？可以用软链接
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-27.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-27.png?imageMogr2/format/avif)
 
 我们现在可以修改一个文件，那就修改 shadow 呗，重新生成一个密码
 
@@ -173,7 +173,7 @@ fi
 sudo /opt/acl.sh mtz rwx /home/mtz/root/etc/shadow
 ```
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-28.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-28.png?imageMogr2/format/avif)
 
 然后用 `openssl` 重新生成一个密码
 
@@ -181,7 +181,7 @@ sudo /opt/acl.sh mtz rwx /home/mtz/root/etc/shadow
 openssl passwd -6 Admin
 ```
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-29.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-29.png?imageMogr2/format/avif)
 
 得到
 
@@ -191,8 +191,8 @@ $6$sqEazCoH043.7zJA$TWQBv0Zo.K8uhq5zPJuj7cmQjP491KmeR.7zoZK9K4w49RM3E4Xat9MZelXH
 
 然后 echo 覆写一下，即可登录 root
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-30.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-30.png?imageMogr2/format/avif)
 
 拿到 flag
 
-![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-31.png)
+![](https://img.trtyr.top/images/blog/Hack%20The%20Box%20PermX/PermX-31.png?imageMogr2/format/avif)

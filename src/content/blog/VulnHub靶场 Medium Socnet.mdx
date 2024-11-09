@@ -2,7 +2,7 @@
 title: VulnHub靶场 Medium Socnet
 description: VulnHub靶场 Medium Socnet WP
 pubDate: 10 18 2024
-image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-17.png
+image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-17.png?imageMogr2/format/avif
 categories:
   - 网络安全
 tags:
@@ -17,19 +17,19 @@ tags:
 
 进行主机发现，由于是在用一网段下，所以使用二层 ARP 发现，发现如下主机
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-1.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-1.png?imageMogr2/format/avif)
 
 其中 `192.168.135.192` 是物理机器，`192.168.135.2` 是手机，对 22 和 47主机进行服务探测，找出我们的靶机
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-2.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-2.png?imageMogr2/format/avif)
 
 找到靶机为 `192.168.135.22`，在 5000 端口下开放了一个 Python 语言的 HTTP 服务，进行访问，来到如下界面
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-3.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-3.png?imageMogr2/format/avif)
 
 进行测试，页面没啥东西，进行目录扫描，发现 `/admin` 路径，页面如下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-4.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-4.png?imageMogr2/format/avif)
 
 可进行命令执行，插入一个 Python 反弹 shell，同时 nc 启动监听
 
@@ -48,51 +48,51 @@ pty.spawn("sh")
 
 反弹成功，结果如下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-8.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-8.png?imageMogr2/format/avif)
 
 ## 内网渗透
 
 进行基本查看，ls 命令发现 Dockerfile 文件
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-9.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-9.png?imageMogr2/format/avif)
 
 目标机器是一个 docker 容器，查看一下 IP
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-10.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-10.png?imageMogr2/format/avif)
 
 目标机器只有一个内网网卡，为 `172.17.0.2/16` ，而我们访问的是 `192.168.135.22`，更能说明这是一个 docker 容器
 
 使用 venom 搭建 socks5 隧道，在本地通关 python 搭建简单 HTTP 服务器，然后通过 wget 将 venom 客户端下载到目标靶机，搭建隧道
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-11.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-11.png?imageMogr2/format/avif)
 
 隧道搭建成功，连接本地 1234 端口即可实现隧道通信。使用 Proxifier 代理，对 `172.17.0.2/16` 进行扫描，结果如下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-14.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-14.png?imageMogr2/format/avif)
 
 发现 `172.17.0.1`，并且它也开启了 5000 端口，访问后发现和 `172.17.0.2` 是一样的。对其余 IP 再进行探测
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-13.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-13.png?imageMogr2/format/avif)
 
 发现 `172.17.0.3`，并且开放 9200 端口，对该端口进行详细的服务扫描
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-15.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-15.png?imageMogr2/format/avif)
 
 是一个 1.4.2 版本的 `Elasticsearch REST API`，该应用曾经有过 RCE，去找一下有没有 EXP，结果如下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-16.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-16.png?imageMogr2/format/avif)
 
 查看该 EXP
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-17.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-17.png?imageMogr2/format/avif)
 
 是一个 python2 版本的 exp，用 python3 格式重新写一下，然后直接利用试试，上来直接拿到 root 权限
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-18.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-18.png?imageMogr2/format/avif)
 
 ls 命令发现有个 passwords，里面是用户密码
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-19.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-19.png?imageMogr2/format/avif)
 
 挨个解 MD5，得到如下结果
 
@@ -106,25 +106,25 @@ jane:1234jane
 
 尝试使用 SSH 登录，结果只有 `john:1337hack` 成功登录，没有 sudo 权限。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-20.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-20.png?imageMogr2/format/avif)
 
 注意到 Linux 内核版本为 `3.13.0` ，上传扫描脚本，开扫！
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-21.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-21.png?imageMogr2/format/avif)
 
 没 sudo 权限，dirtycow 用不了，选择使用 `CVE-2015-1328`。靶机没 GCC
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-22.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-22.png?imageMogr2/format/avif)
 
 先编译成二进制文件，再上传执行
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-23.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-23.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-24.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-24.png?imageMogr2/format/avif)
 
 失败了，看一下代码
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-25.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-25.png?imageMogr2/format/avif)
 
 这个地方，它又重新调用了 gcc 去生成了一个 `/tmp/ofs-lib.so` 库文件，但是靶机是没有 gcc 的，所以它无法生成这个库文件。
 
@@ -132,14 +132,14 @@ jane:1234jane
 
 修改代码，重新编译
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-28.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-28.png?imageMogr2/format/avif)
 
 然后找 `ofs-lib.so`
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-27.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-27.png?imageMogr2/format/avif)
 
 把他们全部放到靶机里，库文件放到 `/tmp` 下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-29.png)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Medium%20Socnet/001%20Medium%20Socnet-29.png?imageMogr2/format/avif)
 
 提权成功。

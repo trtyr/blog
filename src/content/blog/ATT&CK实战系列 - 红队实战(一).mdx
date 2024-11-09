@@ -2,7 +2,7 @@
 title: ATT&CK实战系列 - 红队实战(一)
 description: 红日靶场一
 pubDate: 11 05 2024
-image: https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-1.png
+image: https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-1.png?imageMogr2/format/avif
 categories:
   - 网络安全
 tags:
@@ -31,7 +31,7 @@ start "" explorer
 
 靶场整体拓扑如下
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-1.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-1.png?imageMogr2/format/avif)
 
 根据拓扑与官网的靶场介绍，自行调整虚拟机设置
 
@@ -41,47 +41,47 @@ start "" explorer
 
 目标 Web 服务器与主机在同一网段下，进行二层主机发现
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-2.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-2.png?imageMogr2/format/avif)
 
 得到目标机器 IP 为 `192.168.135.28`，对其进行端口服务探测
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-3.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-3.png?imageMogr2/format/avif)
 
 目标开启 80 端口，存在 HTTP 服务。访问得到一个 phpstudy 探针
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-4.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-4.png?imageMogr2/format/avif)
 
 得到网站绝对路径为 `C:/phpStudy/WWW`。下面存在一个数据连接检测，弱口令测试无果；下面还有一个函数检测接口，经测试没发现其存在什么可利用的点。
 
 进行目录扫描
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-5.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-5.png?imageMogr2/format/avif)
 
 发现其存在 `phpmyadmin`，访问成功
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-6.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-6.png?imageMogr2/format/avif)
 
 对其进行弱口令测试，发现使用 `root:root` 成功登录
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-7.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-7.png?imageMogr2/format/avif)
 
 ### phpMyAdmin 写马
 
 我们目前已知网站根目录，可以尝试使用 SQL 命令写进木马
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-8.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-8.png?imageMogr2/format/avif)
 
 发现目标目录并无写入权限，我们尝试修改 `secure file priv` 的参数值，为网站根目录添加权限
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-9.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-9.png?imageMogr2/format/avif)
 
 该变量是与 MySQL 一同启动的只读变量，只能通过修改配置文件修改。直接写没办法，尝试写入日志，修改日志位置到网站根目录下并保存为 php 文件，日志存在我们的 php 木马，这样我们就可以访问到这个日志从而连接木马
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-12.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-12.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-11.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-11.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-13.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-13.png?imageMogr2/format/avif)
 
 连接成功。
 
@@ -89,57 +89,57 @@ start "" explorer
 
 注意到数据库里存在一个 `newyxcms` 的数据库，这可能是一个 cms 数据库
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-14.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-14.png?imageMogr2/format/avif)
 
 尝试构造路径访问，成功得到 `http://192.168.135.28/yxcms/`
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-15.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-15.png?imageMogr2/format/avif)
 
 存在登录入口，我们查看 cms 数据库，得到其中的账号密码，尝试登录
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-16.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-16.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-17.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-17.png?imageMogr2/format/avif)
 
 然后登录失败
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-19.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-19.png?imageMogr2/format/avif)
 
 检测网站，发现公告里写了管理员账号密码，并且给出路径
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-18.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-18.png?imageMogr2/format/avif)
 
 尝试登录，登录成功
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-20.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-20.png?imageMogr2/format/avif)
 
 检查后台功能点，发现可以编辑 php 的网站模板
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-21.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-21.png?imageMogr2/format/avif)
 
 在其中一个模板内插入木马，访问，尝试连接
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-22.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-22.png?imageMogr2/format/avif)
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-23.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-23.png?imageMogr2/format/avif)
 
 ### CS 上线
 
 拿到目标机器的 WebShell，检查权限
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-24.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-24.png?imageMogr2/format/avif)
 
 是一个 `GOD` 域下的管理员用户。关闭主机上的防火墙
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-25.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-25.png?imageMogr2/format/avif)
 
 查看进程列表，确认是否有杀软
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-26.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-26.png?imageMogr2/format/avif)
 
 无杀软，直接上传 CS 木马尝试上线
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-37.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-37.png?imageMogr2/format/avif)
 
 得到一个 `Administrator` 权限的主机
 
@@ -147,48 +147,48 @@ start "" explorer
 
 查看主机网卡情况
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-38.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-38.png?imageMogr2/format/avif)
 
 得到内网网段 `192.168.52.143/24`，探测该网段内存活主机
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-39.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-39.png?imageMogr2/format/avif)
 
 当然，我们上面知道了这是一个域，而且我们目前就是域管理用户，所以 `net view` 也可以
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-40.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-40.png?imageMogr2/format/avif)
 
 可以在列表视图里看见我们的主机
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-41.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-41.png?imageMogr2/format/avif)
 
 ### SMB横向移动
 
 在信息收集的时候发现，域内三台主机，并且都开着 445 端口
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-42.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-42.png?imageMogr2/format/avif)
 
 直接尝试 SMB 横向移动，创建一个 SMB 监听
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-43.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-43.png?imageMogr2/format/avif)
 
 尝试拿到主机 Hash
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-44.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-44.png?imageMogr2/format/avif)
 
 尝试拿一下明文密码
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-45.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-45.png?imageMogr2/format/avif)
 
 直接横向
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-46.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-46.png?imageMogr2/format/avif)
 
 拿到了域控权限
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-47.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-47.png?imageMogr2/format/avif)
 
 至于那台 Win2003，首先他是 32 位的，永恒之蓝用不了，不过可以远程执行命令
 
-![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-48.png)
+![](https://img.trtyr.top/images/blog/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA%28%E4%B8%80%29/ATT%26CK%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%20-%20%E7%BA%A2%E9%98%9F%E5%AE%9E%E6%88%98%28%E4%B8%80%29-48.png?imageMogr2/format/avif)
 
 但是无法进一步发展。首先 21 用不了，FTP 就是连不上。3339 远程桌面打不开，Telnet 打不开；主机内没有 wget，没有 curl，甚至连 bitsadmin 都没有，没法通过命令执行下载远端服务器文件；而且连 powershell 都没有。止步于此喽
