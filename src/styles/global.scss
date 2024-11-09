@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 html {
-  @apply scroll-smooth transition-colors;
+  font-family: "LXGW WenKai Lite", sans-serif;
+  scroll-behavior: smooth;
+  transition:
+    color 0.3s,
+    background-color 0.3s;
 }
 
 .no-card {
