@@ -2,7 +2,7 @@
 title: 蚁剑PHP木马流量分析
 description: 对蚁剑PHP木马的流量进行分析
 pubDate: 11 04 2024
-image: https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-7.png?imageMogr2/format/avif
+image: https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-7.png?imageSlim
 categories:
   - 网络安全
 tags:
@@ -24,11 +24,11 @@ tags:
 
 我们点击测试连接
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-2.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-2.png?imageSlim)
 
 流量如下
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-3.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-3.png?imageSlim)
 
 注意到流量特征
 
@@ -37,7 +37,7 @@ tags:
 
 追踪 TCP 流
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-4.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-4.png?imageSlim)
 
 可以看到，在 POST 请求中，存在一个 cmd 参数；然后返回了一些系统信息
 
@@ -165,7 +165,7 @@ die();
 
 捋一下代码。首先设置错误显示为 0，禁止错误信息输出；设置脚本的最大执行时间为无限制。然后获取 PHP 的 open_basedir 限制，这里默认设置是空
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-5.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-5.png?imageSlim)
 
 然后下面那一段 if 函数就不用看了。然后写了俩函数，接着开始缓冲，获取当前文件的位置，如果获取不到，就又换了个函数去获取。接着，如果不是 `\` 开头，也就是说当前系统是 linux，那么就去找盘符，并将内容传给 R 变量。接着获取当前用户信息，获取系统信息并构建返回字符串。R 先加系统信息，然后加用户信息。也就是说，R 现在是 `路径 盘符 系统信息 用户信息`。接着输出 R 变量，先存在缓冲区里
 
@@ -177,13 +177,13 @@ die();
 f5fffec646D:/phpstudy_pro/WWW/webshell	C:D:	Windows NT SIMPLE 10.0 build 19045 (Windows 10) AMD64	trtyr1eb115451
 ```
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-6.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-6.png?imageSlim)
 
 ### 命令执行测试
 
 我们执行 `dir` 命令，得到如下流量
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-7.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-7.png?imageSlim)
 
 可以看到，返回了 `dir` 的结果，POST 参数如下
 
@@ -411,17 +411,17 @@ D:\phpstudy_pro\WWW\webshell
 12e8995
 ```
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-8.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-8.png?imageSlim)
 
 ### GUI 读文件操作
 
 首先是蚁剑的 GUI 读文件
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-9.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-9.png?imageSlim)
 
 查看流量
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-10.png?imageMogr2/format/avif|1249)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-10.png?imageSlim|1249)
 
 分析 POST 参数
 
@@ -514,7 +514,7 @@ try {
 RW_IHZ.KFY>HHS-IHZ AAAAB3NzaC1yc2EAAAADAQABAAABAHqSISYfkwuFeX20KTtyDhpG/nmyMK5MrmjKILUbLxpEtgw+4i0sIR4sWtNpGSVAMLZ4YO8EY6p7FBw0z4u0ALo2qC8I763lfKlNXH1WHWexRHd72MEpxpOzt79ukabEr7OWpRdDEISj3MyEalVNYGTKMt/TQWR/dnFd+TsDB2aRDBQQq9VfQhZ9Z864huQ4Du8PKg42plzfRPJsEhe4JpE0GW5QRap9ZNHM/4fSSHJlwqbBqGdeIjw+U7zY/RokxK979+f7SN6qMc9FzAUTnbwFGLpZe4ohz4pPJNrmRKfERTSKDoXw1krdDZuEZzCgiprpR8WqLvGoDXhYstcrgWU=
 ```
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-11.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-11.png?imageSlim)
 
 和要传的文件内容相同。
 
@@ -555,16 +555,16 @@ RW_IHZ.KFY>HHS-IHZ AAAAB3NzaC1yc2EAAAADAQABAAABAHqSISYfkwuFeX20KTtyDhpG/nmyMK5Mr
 
 得到流量
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-12.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-12.png?imageSlim)
 
 一样的套路
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-13.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-13.png?imageSlim)
 
 ## RSA 编码器
 
 蚁剑支持 RSA 编解码，看一下流量
 
-![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-14.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/001%20%E8%9A%81%E5%89%91php%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-14.png?imageSlim)
 
 可以看到，这里已经被加密了。不过可惜的是，response 没有被加密。

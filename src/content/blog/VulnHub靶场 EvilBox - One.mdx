@@ -2,7 +2,7 @@
 title: VulnHub靶场 EvilBox - One
 description: VulnHub靶场 EvilBox - One WP
 pubDate: 11 08 2024
-image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-24.png?imageMogr2/format/avif
+image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-24.png?imageSlim
 categories:
   - 网络安全
 tags:
@@ -21,15 +21,15 @@ tags:
 
 进行主机发现，发现目标 IP 为 `192.168.10.83`
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-1.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-1.png?imageSlim)
 
 对其进行端口扫描
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-2.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-2.png?imageSlim)
 
 发现其开放了 80 端口，访问目标 HTTP 服务。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-3.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-3.png?imageSlim)
 
 是一个 Apache2 Debian Default Page。
 
@@ -37,78 +37,78 @@ tags:
 
 对其进行目录扫描。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-4.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-4.png?imageSlim)
 
 访问这两个目录，其中 `secret` 目录没有内容，`robots.txt` 结果如下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-5.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-5.png?imageSlim)
 
 得到一个似乎是用户名的字符串 `H4x0r`。我们假设它是目标系统用户名，对其 22 端口进行 SSH 爆破，失败。
 
 由于这个 `secret` 是一个二级目录，我们接着这个二级目录再扫一下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-6.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-6.png?imageSlim)
 
 得到一个 `evil.php`，访问无果，尝试爆破参数。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-10.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-10.png?imageSlim)
 
 失败了。不过这个文件加参数的形式，很容易让人联想到文件包含漏洞，试试
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-9.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-9.png?imageSlim)
 
 得到一个参数 `command`，我们尝试访问 `http://192.168.10.83/secret/evil.php?command=/etc/passwd`，结果如下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-11.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-11.png?imageSlim)
 
 ### SSH 密文爆破
 
 这个位置可以进行文件包含，那这里思路就多了，读日志，读 ssh 密钥，读源码等等。我们先试试日志能不能拿到
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-12.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-12.png?imageSlim)
 
 失败。我们在读 `/etc/passwd` 的时候，发现目标主机存在一个 `mowree` 用户，尝试读一下它的 SSH 密钥
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-13.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-13.png?imageSlim)
 
 成功，我们尝试连接。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-14.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-14.png?imageSlim)
 
 这个私钥需要密码文才能使用，我们使用 john 进行破解，主要要先用 `ssh2john.py` 将 SSH 密钥转换为 John 支持的格式
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-15.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-15.png?imageSlim)
 
 得到密文为 `unicorn` 重新连接
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-16.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-16.png?imageSlim)
 
 ### root 用户密码修改
 
 得到第一个 flag
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-17.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-17.png?imageSlim)
 
 接下来就是提权了。查看计划任务
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-18.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-18.png?imageSlim)
 
 没东西，查看 `sudo -l`
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-19.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-19.png?imageSlim)
 
 用不了，尝试 suid 提权
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-20.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-20.png?imageSlim)
 
 没有能用的，查看一下写权限
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-21.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-21.png?imageSlim)
 
 这里发现 `/etc/passwd` 竟然有写权限，我们直接生成一个密码，将 root 用户的密码修改掉
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-22.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-22.png?imageSlim)
 
 然后直接登录 root 用户
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-23.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20EvilBox%20-%20One/006%20EvilBox%20-%20One-23.png?imageSlim)

@@ -2,7 +2,7 @@
 title: VulnHub靶场 Hard_Socnet2
 description: VulnHub靶场 Hard_Socnet2 WP
 pubDate: 11 07 2024
-image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-45.png?imageMogr2/format/avif
+image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-45.png?imageSlim
 categories:
   - 网络安全
 tags:
@@ -11,81 +11,82 @@ tags:
   - 渗透测试
   - 逆向
 ---
+
 ## 主机发现
 
 先进行主机发现
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-1.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-1.png?imageSlim)
 
 发现目标主机为 `192.168.10.225`，对其进行端口服务搜集
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-2.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-2.png?imageSlim)
 
 目标主机开放 `80` 和 `8000` 端口，运行 HTTP 服务。
 
 80 端口页面如下，是一个登录界面
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-3.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-3.png?imageSlim)
 
 8000 端口页面如下，提示 GET 请求不可用。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-4.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-4.png?imageSlim)
 
 ## Webshell 上传
 
 在 80 的登录界面，发现可以注册，我们注册一个账户登录进去
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-5.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-5.png?imageSlim)
 
 成功注册后跳转到如下界面
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-6.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-6.png?imageSlim)
 
 检查其功能，发现其 Feed 的 URL 似乎存在 SQL 注入
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-7.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-7.png?imageSlim)
 
 对其进行 SQL 注入测试，成功
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-8.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-8.png?imageSlim)
 
 读取目标数据库信息，得到用户信息
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-9.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-9.png?imageSlim)
 
 尝试登录 admin 用户。登录成功后，即可操作该用户的 Feed 信息
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-10.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-10.png?imageSlim)
 
 存在上传功能点，尝试上传木马。成功上传并连接蚁剑
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-11.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-11.png?imageSlim)
 
 ## CVE-2021-3493 提权
 
 查看当前用户权限
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-12.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-12.png?imageSlim)
 
 查看目标系统信息
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-13.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-13.png?imageSlim)
 
 目标是一个 `Ubuntu 18.04.1 LTS`，该版本存在 `CVE-2021-3493` 漏洞，我们尝试利用
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-14.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-14.png?imageSlim)
 
 利用失败，似乎蚁剑这个 shell 存在问题，我们拿 nc 反弹试试
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-15.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-15.png?imageSlim)
 
 在 nc 中尝试提权
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-16.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-16.png?imageSlim)
 
 成功。我们在这个基础上，尝试创建一个 nc 会话
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-17.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-17.png?imageSlim)
 
 这就拿到 root 的会话了。
 
@@ -107,10 +108,10 @@ def runcmd(cmd):
     # 使用 subprocess.Popen 来执行传入的命令
     # shell=True 使得命令通过 shell 执行，stdin、stdout、stderr 分别是标准输入、输出和错误流
     results = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-    
+
     # 读取命令的输出，包括标准输出和错误输出
     output = results.stdout.read() + results.stderr.read()
-    
+
     # 返回命令执行的输出
     return output
 
@@ -168,11 +169,11 @@ server.serve_forever()
 
 该文件的权限是 `socnet`
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-18.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-18.png?imageSlim)
 
 并且它现在正在运行
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-19.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-19.png?imageSlim)
 
 我们先简单连接一下
 
@@ -212,11 +213,11 @@ for i in range(1000, 10000):
 
 得到密码为 4416，成功执行命令
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-20.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-20.png?imageSlim)
 
 我们用这种方式反弹一个 nc 出来。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-21.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-21.png?imageSlim)
 
 成功拿到 `socnet` 用户的 shell
 
@@ -224,23 +225,23 @@ for i in range(1000, 10000):
 
 注意到目录下有个叫 `add_record` 的可执行文件，有 root 权限
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-22.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-22.png?imageSlim)
 
 我们尝试运行一下它
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-23.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-23.png?imageSlim)
 
 它会让我们输入内容，然后内容会输出到文件内。我们使用 gdb 进行调试，在 `Explain` 中发现溢出
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-24.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-24.png?imageSlim)
 
 可以看到，在堆栈中出现的了大量的 `a`。这是因为参数没有做很好的处理，导致这个 `a` 溢出了
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-25.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-25.png?imageSlim)
 
 而且还能注意到，EIP 寄存器也被覆盖了。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-26.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-26.png?imageSlim)
 
 EIP 寄存器是 CPU 接下来要运行的下一条指令。现在就看这么多 `a` 中，哪几个 `a` 是覆盖到 EIP 的。我们可以利用 gdb 去生成特征字符来查看
 
@@ -250,47 +251,47 @@ parttern create 100
 
 这样就会生成 100 个特征字符
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-27.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-27.png?imageSlim)
 
 我们拿这个字符串进行测试，得到如下结果
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-28.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-28.png?imageSlim)
 
 这个 AHAA 具体在哪，我们可以 search 一下
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-29.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-29.png?imageSlim)
 
 可以看到偏移量是 62，也就是说第 63 个字符就会进入 EIP 寄存器里。这样的话我们重新构建一下 payload
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-30.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-30.png?imageSlim)
 
 我们测试这个 payload，得到如下结果
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-31.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-31.png?imageSlim)
 
 现在 "HHHH" 就是进入 EIP 的位置了，那这个咋用呢，我们去查看汇编源码
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-32.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-32.png?imageSlim)
 
 翻的时候，发现存在一个 `vuln` 函数，而是是自建函数
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-33.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-33.png?imageSlim)
 
 这不就明摆着有问题嘛，我们看一下整体函数
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-34.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-34.png?imageSlim)
 
 发现程序调用了 `system` 和 `setuid` 这两个函数。`system` 函数是用来执行一些系统命令；setuid 函数是用于去申请 suid 权限。在下面还有一个 `backdoor`。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-35.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-35.png?imageSlim)
 
 我们先去查看 `vuln` 函数
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-36.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-36.png?imageSlim)
 
 `vuln` 调用了一个 `strcpy` 函数，经过搜索，发现这个 `strcpy` 函数存在缓冲区溢出漏洞。接着再来看看 `backdoor` 函数
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-37.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-37.png?imageSlim)
 
 这个函数调用了 `setuid` 和 `system`，不过它执行了什么呢？我们现在已知主程序中的 `vuln` 函数存在缓冲区溢出漏洞，那么我们可以通过它去运行这个 `backdoor` 函数，把 `backdoor` 函数的起始位置写进 EIP 里，这样 CPU 接下来就会去执行 `baskdoor` 函数。而该函数的起始位置是 `0x08048676`。
 
@@ -305,31 +306,28 @@ sys.stdout.buffer.write(data)
 
 这样就会得到一个原始 payload 数据
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-38.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-38.png?imageSlim)
 
 结果测试失败了，感觉可能是输出的时候会有编码问题，那么我们可以尝试把要输出的信息输出到一个文件里，然后直接文件传参数。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-39.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-39.png?imageSlim)
 
 然后我们执行程序
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-40.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-40.png?imageSlim)
 
 可以看到，这里产生了一个新的进程，先执行 `/bin/dash` ，然后又创建了一个进程去执行 `/bin/bash`。我们 break 一下 `vuln` 函数看看
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-41.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-41.png?imageSlim)
 
 可以看到，这里到了 `backdoor` 的 `setuid` 函数了
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-42.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-42.png?imageSlim)
 
 然后在 `system` 函数执行了 `/bin/bash`。那现在就可以直接拿这个 payload 用了
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-43.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-43.png?imageSlim)
 
 然后在这个状态下，反弹个 nc
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-44.png?imageMogr2/format/avif)
-
-
-
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20Hard_Socnet2/005%20Hard_Socnet2-44.png?imageSlim)

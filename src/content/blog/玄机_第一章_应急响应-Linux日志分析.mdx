@@ -2,7 +2,7 @@
 title: 玄机 第一章 应急响应 Linux日志分析
 description: 玄机 第一章 应急响应-Linux日志分析 WP
 pubDate: 10 29 2024
-image: https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-2.png?imageMogr2/format/avif
+image: https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-2.png?imageSlim
 categories:
   - 网络安全
 tags:
@@ -27,7 +27,7 @@ ssh root@IP
 
 首先是查看有多少 IP 在爆破 SSH，我们看日志，位置在 `/var/log`
 
-![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-1.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-1.png?imageSlim)
 
 我们主要看 `auth.log` 和 `auth.log.1`，可能是在备份文件 `auth.log.1` 里。
 
@@ -37,7 +37,7 @@ SSH 登录爆破，会有关键字 `Failed password` 和 `Accepted` 出现，我
 grep -a "Failed password" auth.log.1
 ```
 
-![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-2.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-2.png?imageSlim)
 
 得到 IP 如下
 
@@ -62,6 +62,6 @@ grep -a "Failed password" auth.log.1
 grep -a "useradd" auth.log.1
 ```
 
-![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-3.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/002%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-3.png?imageSlim)
 
 新用户是 `test2`

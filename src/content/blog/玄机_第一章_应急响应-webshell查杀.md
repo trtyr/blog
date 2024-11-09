@@ -2,7 +2,7 @@
 title: 玄机 第一章 应急响应 Webshell查杀
 description: 玄机 第一章 应急响应 Webshell查杀 WP
 pubDate: 10 15 2024
-image: https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-4.png?imageMogr2/format/avif
+image: https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-4.png?imageSlim
 categories:
   - 网络安全
 tags:
@@ -26,7 +26,7 @@ tags:
 
 来到网站根目录，得到 `shell.php`
 
-![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-1.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-1.png?imageSlim)
 
 没有 flag，find 命令寻找
 
@@ -36,7 +36,7 @@ find . -name "*.php"
 
 寻找后得到 webshell 文件为 `./include/gz.php`，拿到 flag
 
-![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-2.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-2.png?imageSlim)
 
 观察特征
 
@@ -85,7 +85,7 @@ if ($data!==false){
 
 第三个 flag 是隐藏的 shell，挨个找呗，发现 `.Mysqli.php` 是加密的。
 
-![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-3.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-3.png?imageSlim)
 
 对路径 `/var/www/html/include/Db/.Mysqli.php` MD5 加密得到 `AEBAC0E58CD6C5FAD1695EE4D1AC1919`
 
@@ -97,7 +97,7 @@ grep -r "key" --include "*.php" /var/www/html
 
 得到了一堆 php 文件，然后就挨个看吧
 
-![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-4.png?imageMogr2/format/avif)
+![](https://img.trtyr.top/images/blog/%E7%8E%84%E6%9C%BA%20%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/001%20%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80-4.png?imageSlim)
 
 发现一个特殊文件
 
