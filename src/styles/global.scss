@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 html {
-  @apply scroll-smooth transition-colors;
   font-family: "LXGW WenKai Lite", sans-serif;
+  scroll-behavior: smooth; /* 对应 Tailwind 的 scroll-smooth */
+  transition:
+    color 0.3s,
+    background-color 0.3s; /* 对应 Tailwind 的 transition-colors */
 }
 
 .no-card {
@@ -243,12 +246,14 @@ table tr {
 }
 
 code {
-  font-family: "JetBrains Mono NL";
-  @apply text-xl p-[2px_5px] rounded-sm;
+  font-family: "JetBrains Mono NL", monospace; /* 显式设置字体堆栈 */
+  font-size: 1.25rem; /* 对应 Tailwind 的 text-xl */
+  padding: 2px 5px; /* 对应 Tailwind 的 p-[2px_5px] */
+  border-radius: 0.125rem; /* 对应 Tailwind 的 rounded-sm */
 }
 
 pre {
-  font-family: "JetBrains Mono NL";
+  font-family: "JetBrains Mono NL", monospace;
   padding: 10px;
 }
 
@@ -316,7 +321,7 @@ thead th {
 }
 
 .highlight .code-lang {
-  font-family: "JetBrains Mono NL";
+  font-family: "JetBrains Mono NL", monospace;
   user-select: none;
 }
 
