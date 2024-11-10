@@ -2,7 +2,7 @@
 title: 渗透测试中的 Windows Defender 操作
 description: 渗透测试中的 Windows Defender 操作
 pubDate: 11 08 2024
-image: https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-18.png?imageSlim?imageSlim
+image: https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-18.webp
 categories:
   - 网络安全
 tags:
@@ -15,7 +15,7 @@ Windows Defender（现称为 Microsoft Defender Antivirus）是微软为 Windows
 
 我们可以在 Windows 安全中心的关于中，查看当前 WD 的版本
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-1.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-1.webp)
 
 这个版本会以文件名显示在程序文件夹中，目标目录为 `C:\ProgramData\Microsoft\Windows Defender\Platform\`，不过普通用户无访问权限
 
@@ -23,15 +23,15 @@ Windows Defender（现称为 Microsoft Defender Antivirus）是微软为 Windows
 dir "C:\ProgramData\Microsoft\Windows Defender\Platform\" /od /b
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-3.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-3.webp)
 
 需要有管理员权限才可以
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-2.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-2.webp)
 
 不过有的时候，cmd 查看结果是空。比如这样
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-4.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-4.webp)
 
 除了 cmd 外，powershell 也可以，而且 powershell 不论普通还是管理员都可以查看
 
@@ -39,7 +39,7 @@ dir "C:\ProgramData\Microsoft\Windows Defender\Platform\" /od /b
 Get-MpComputerStatus | Select-Object -Property AMProductVersion
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-5.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-5.webp)
 
 所以在目标有 powershell 的情况下，可以在普通权限的 cmd 中调用 powershell 去查看
 
@@ -47,17 +47,17 @@ Get-MpComputerStatus | Select-Object -Property AMProductVersion
 powershell -command "Get-MpComputerStatus | Select-Object -Property AMProductVersion"
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-6.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-6.webp)
 
 而且有时查看文件名的方式会出现空的情况，这时也可以用这种方法去查看
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-7.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-7.webp)
 
 ## 查看排除列表
 
 我们可以查看 WD 排除了哪些位置从而在这些目录存放木马，比如目前的排除项如下
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-8.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-8.webp)
 
 在 cmd 中使用命令查看，而且不需要管理员权限
 
@@ -65,7 +65,7 @@ powershell -command "Get-MpComputerStatus | Select-Object -Property AMProductVer
 reg query "HKLM\SOFTWARE\Microsoft\Windows Defender\Exclusions" /s
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-9.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-9.webp)
 
 powershell 命令如下，并且同样不需要管理员权限
 
@@ -73,7 +73,7 @@ powershell 命令如下，并且同样不需要管理员权限
 Get-MpPreference | select ExclusionPath
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-10.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-10.webp)
 
 ## 添加查杀排除列表
 
@@ -83,7 +83,7 @@ Get-MpPreference | select ExclusionPath
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths" /v "c:\test" /d 0 /t REG_DWORD /f
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-11.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-11.webp)
 
 我们可以使用 `AdvancedRun` 去执行
 
@@ -91,7 +91,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths
 AdvancedRun.exe /EXEFilename "%windir%\system32\cmd.exe" /CommandLine '/c reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths" /v "c:\test" /d 0 /t REG_DWORD /f' /RunAs 8 /Run
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-12.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-12.webp)
 
 在普通用户下执行会弹出 UAC，在管理员权限下就是直接添加，没有弹出 UAC。如果没有 TrustedInstaller 权限的话，我们可以使用管理员权限的 powershell 去操作
 
@@ -99,13 +99,13 @@ AdvancedRun.exe /EXEFilename "%windir%\system32\cmd.exe" /CommandLine '/c reg ad
 Add-MpPreference -ExclusionPath "C:\test"
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-13.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-13.webp)
 
 ## 恢复被隔离文件
 
 WD 有一个叫做 `mpcmdrun.exe` 的程序，它可以操作被 WD 处理的文件，而且只能在终端中运行。位置一般就在 `C:\Program Files\Windows Defender`
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-14.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-14.webp)
 
 以下操作需要在管理员权限下查看
 
@@ -115,7 +115,7 @@ WD 有一个叫做 `mpcmdrun.exe` 的程序，它可以操作被 WD 处理的文
 MpCmdRun.exe -Restore -ListAll
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-19.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-19.webp)
 
 恢复指定名称的文件至原目录
 
@@ -123,11 +123,11 @@ MpCmdRun.exe -Restore -ListAll
 MpCmdRun.exe -Restore -FilePath C:\test\mimikatz_trunk.zip
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-20.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-20.webp)
 
 而且恢复后会默认加入白名单。
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-21.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-21.webp)
 
 恢复所有文件至原目录
 
@@ -141,9 +141,9 @@ MpCmdRun.exe -Restore -All
 MpCmdRun.exe -CheckExclusion -path C:\test
 ```
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-22.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-22.webp)
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-23.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C-23.webp)
 
 ## 工具关闭
 
@@ -154,7 +154,7 @@ MpCmdRun.exe -CheckExclusion -path C:\test
 
 GUI 程序，以管理员权限运行，重启生效，效果如下
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-15.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-15.webp)
 
 工具二
 
@@ -163,8 +163,8 @@ GUI 程序，以管理员权限运行，重启生效，效果如下
 
 GUI 程序，以管理员权限运行，无需重启。效果如下
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-16.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-16.webp)
 
 若以普通用户运行，会弹出 UAC，最终效果如下
 
-![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-17.png?imageSlim)
+![](https://img.trtyr.top/images/blog/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%AD%E7%9A%84%20Windows%20Defender%20%E6%93%8D%E4%BD%9C/008%20%E5%85%B3%E9%97%ADWindows%20Defender-17.webp)

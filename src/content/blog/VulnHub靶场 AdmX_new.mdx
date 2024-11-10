@@ -2,7 +2,7 @@
 title: VulnHub靶场 AdmX_new
 description: VulnHub靶场 AdmX_new WP
 pubDate: 11 06 2024
-image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-12.png?imageSlim
+image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-12.webp
 categories:
   - 网络安全
 tags:
@@ -19,15 +19,15 @@ tags:
 
 进行二层发现
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-1.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-1.webp)
 
 得到目标机器 IP 为 `192.168.217.144`，进行端口服务发现
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-5.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-5.webp)
 
 发现 80 端口，运行 HTTP 服务，访问目标页面。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-2.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-2.webp)
 
 是一个 Ubuntu 下 Apache 的默认页面
 
@@ -35,49 +35,49 @@ tags:
 
 对该网站进行目录扫描
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-3.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-3.webp)
 
 发现如下目录，访问 `http://192.168.217.144//tools/adminer.php`，得到数据库连接界面
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-4.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-4.webp)
 
 访问 `http://192.168.217.144/wordpress/` ，经过漫长的访问，才出现一个基本的 Web 框架
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-6.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-6.webp)
 
 不对劲，查看网络情况
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-7.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-7.webp)
 
 IP 是硬编码写死的，通过 burp 拦截，把这个 IP 改成真实的 IP
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-8.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-8.webp)
 
 然后再进行测试，发现可以正常访问。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-9.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-9.webp)
 
 访问 `http://192.168.217.144/wordpress/wp-login.php` 来到 wordpress 的登录界面
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-10.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-10.webp)
 
 尝试弱口令登录，发现存在 admin 用户
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-11.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-11.webp)
 
 利用 burp 对 admin 用户进行密码爆破，得到密码为 `adam14`，成功登录后台
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-12.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-12.webp)
 
 ## Wordpress 插件 getshell
 
 在主题模板上放个木马，这里选择在 404 页面放了个一句话木马
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-13.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-13.webp)
 
 更新页面，结果报错失败了
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-14.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-14.webp)
 
 Wordpress 支持上传 ZIP 格式的插件包。我们可以写一个符合 Wordpress 格式的 webshell 然后让网站以插件加载它。
 
@@ -96,64 +96,64 @@ Author: trtyr
 
 然后将其打包成 zip，上传
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-15.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-15.webp)
 
 直接蚁剑连接
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-16.png?imageSlim)``
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-16.webp)``
 
 ## 内网渗透
 
 我们现在拿到了蚁剑的 shell，上传一个 MSF 木马，再上线一下 MSF
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-17.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-17.webp)
 
 主机里存在两个 flag。我们先去看看 `/home` 目录下几个用户
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-18.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-18.webp)
 
 存在一个 `wpadmin` 用户，在文件夹内发现 `local.txt`，结果没有权限
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-19.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-19.webp)
 
 我们回去看一下网站的数据库配置文件
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-20.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-20.webp)
 
 得到一个用户名密码 `Wp_Admin#123`，试试能不能登录数据库
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-21.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-21.webp)
 
 数据库登录失败，尝试拿这个密码登录用户。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-22.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-22.webp)
 
 登录失败，我们还知道网站密码是 `adam14`，挨个尝试，结果用户登录上去了。
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-23.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-23.webp)
 
 在当前用户下，通过 curl 下载一个新的 MSF 木马
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-24.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-24.webp)
 
 没有写入权限，我们再上线一个 nc。结果这里是个大坑，试了好几遍都不行，后来发现主机有 python3，拿 python 去反弹了 shell。
 
 拿到 shell 后直接去看那个 `local.txt`
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-25.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-25.webp)
 
 得到第一个 flag。然后看一下这个用户能不能执行 `sudo -l`
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-26.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-26.webp)
 
 可以发现可以执行 `/usr/bin/mysql -u root -D wordpress -p` 命令，尝试使用 `sudo` 运行该命令。经过测试，密码又是 `adam14`，拿到数据库 shell
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-27.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-27.webp)
 
 使用 `system` 命令直接上 bash
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-28.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-28.webp)
 
 拿到 root 权限，去 root 目录下，拿到第二个 flag
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-29.png?imageSlim)
+![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20AdmX_new/004%20AdmX_new-29.webp)
