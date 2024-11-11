@@ -2,7 +2,7 @@
 title: Linux渗透 SUID提权
 description: Linux渗透 SUID提权
 pubDate: 11 11 2024
-image: https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-12.png
+image: https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-12.webp
 categories:
   - 网络安全
 tags:
@@ -29,7 +29,7 @@ chmod u+s filename 设置SUID位
 chmod u-s filename 去掉SUID设置
 ```
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-1.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-1.webp)
 
 可以看到，在设置 SUID 后，权限中 x 的位置变成了 S
 
@@ -37,7 +37,7 @@ chmod u-s filename 去掉SUID设置
 
 当前权限如下
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-2.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-2.webp)
 
 ### SUID 文件收集
 
@@ -57,7 +57,7 @@ find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null
     - `2>/dev/null`：将错误输出重定向到 `/dev/null`，隐藏因为权限不足导致的错误消息。
   - 目的：查找系统中所有具有 SUID 权限的文件，以检查可能存在的提权漏洞。
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-3.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-3.webp)
 
 - 命令二： `find / -user root -perm -4000 -print 2>/dev/null`
   - 解释：在根目录下查找所有具有 SUID 权限且文件拥有者是 `root` 的文件。
@@ -68,7 +68,7 @@ find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null
     - `2>/dev/null`：将错误信息重定向到 `/dev/null`，隐藏错误消息。
   - 目的：查找系统中以 `root` 身份执行的 SUID 文件，这些文件如果存在安全漏洞，可能被用于提权到 `root`。
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-4.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-4.webp)
 
 - 命令三： `find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null`
   - 解释：在根目录下查找所有具有 SUID 权限且拥有者是 `root` 的文件，并详细列出这些文件的权限和信息。
@@ -79,13 +79,13 @@ find / -user root -perm -4000 -exec ls -ldb {} \; 2>/dev/null
     - `{}`：表示找到的文件路径会插入到 `{}` 中。
   - 目的：不仅查找 SUID 文件，还通过 `ls -ldb` 详细列出文件权限、所有者等信息，有助于进一步分析这些文件的潜在风险。
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-5.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-5.webp)
 
 ### find 提权
 
 如果 find 拥有 SUID 权限的话，我们可以利用它进行提权
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-6.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-6.webp)
 
 find 命令需要指向一个文本文件，就以 `/etc/passwd` 为例
 
@@ -93,11 +93,11 @@ find 命令需要指向一个文本文件，就以 `/etc/passwd` 为例
 find /etc/passwd -exec whoami \;
 ```
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-7.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-7.webp)
 
 成功以 root 权限去执行了 `whoami`。我们可以用这种方式去执行各种命令
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-8.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-8.webp)
 
 ### nmap 提权
 
@@ -134,7 +134,7 @@ vim /etc/passwd
 :shell
 ```
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-9.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-9.webp)
 
 ### Bash 提权
 
@@ -144,7 +144,7 @@ vim /etc/passwd
 bash -p
 ```
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-10.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-10.webp)
 
 ### less 提权
 
@@ -181,7 +181,7 @@ Ctrl + X
 #即可输入命令
 ```
 
-![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-11.png)
+![](https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83/001%20Linux%E6%B8%97%E9%80%8F%20SUID%E6%8F%90%E6%9D%83-11.webp)
 
 ## 总结
 
