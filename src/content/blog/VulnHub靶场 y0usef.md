@@ -11,8 +11,6 @@ tags:
   - 渗透测试
 ---
 
-![](https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20y0usef/008%20y0usef-17.webp)
-
 ## 主机发现
 
 进行主机发现
