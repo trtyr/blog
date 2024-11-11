@@ -1,7 +1,7 @@
 ---
 title: VulnHub靶场 y0usef
 description: VulnHub靶场 y0usef WP
-pubDate: 10 18 2024
+pubDate: 11 11 2024
 image: https://img.trtyr.top/images/blog/VulnHub%E9%9D%B6%E5%9C%BA%20y0usef/008%20y0usef-17.webp
 categories:
   - 网络安全
