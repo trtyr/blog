@@ -61,6 +61,7 @@ API_HASH =
 [email]
 SENDER =
 PASSWORD =
+RECIVE =
 
 [bot_1]
 USERNAME =
@@ -71,7 +72,7 @@ USERNAME =
 CHECKIN_COMMAND =
 ```
 
-其中 `API_ID` 和 `API_HASH` 就是我们注册 API 得到的信息；为了应付以后可能会增加的 bot 数量，可以在配置文件这里按照格式添加对应的数据。其中 `USERNAME` 是 bot 的 Username。`CHECKIN_COMMAND` 是要执行的签到命令。`SENDER` 是发件人的邮箱，这里选择的是 QQ 邮箱；`PASSWORD` 是 QQ 邮箱的授权码，自行申请。当然，你也可以改成别的邮箱，简单改改代码就行。
+其中 `API_ID` 和 `API_HASH` 就是我们注册 API 得到的信息；为了应付以后可能会增加的 bot 数量，可以在配置文件这里按照格式添加对应的数据。其中 `USERNAME` 是 bot 的 Username。`CHECKIN_COMMAND` 是要执行的签到命令。`SENDER` 是发件人的邮箱，这里选择的是 QQ 邮箱；`PASSWORD` 是 QQ 邮箱的授权码，自行申请。当然，你也可以改成别的邮箱，简单改改代码就行。`RECIVE`是目标邮箱。
 
 实际代码如下。
 
@@ -114,6 +115,7 @@ def send_email(subject, body, to_email):
 
 
 async def handle_checkin_message(event, section):
+    recive = config['email']['RECIVE']
     if event.message:
         sender = await event.get_sender()
         sender_name = sender.username if sender.username else "未知用户名"
@@ -134,9 +136,7 @@ async def handle_checkin_message(event, section):
 
                 subject = "签到结果"
                 body = "Telegram 签到完成。程序已结束。\n\n" + "\n".join(
-                    [f"{sender_name} 签到成功"
-                     for sender_name in completed_bots])  # 使用 sender_name
-                send_email(subject, body, "z1693309049@outlook.com")
+                    [f"{sender_name} 签到成功" for sender_name in completed_bots])
                 await client.disconnect()
     else:
         print("结束")
@@ -196,3 +196,7 @@ client.loop.run_until_complete(main())
 ![](https://img.trtyr.top/images/blog/Python%E5%AE%9E%E7%8E%B0Telegram%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E8%84%9A%E6%9C%AC/Python%E5%AE%9E%E7%8E%B0Telegram%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E8%84%9A%E6%9C%AC-3.webp)
 
 如果你没有服务器，可以放到 Github 上，创建私有仓库然后创建一个 Action。
+
+## 项目地址
+
+https://github.com/trtyr/Telegram_AutoCheckIn
