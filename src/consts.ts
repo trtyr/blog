@@ -20,58 +20,64 @@ export const SERVER_URL = "https://waline.trtyr.top";
 export const DAISYUI_THEME = {
   light: "winter",
   dark: "dracula",
-}
+};
 export const CODE_THEME = {
   light: "github-light",
   dark: "github-dark",
-}
+};
 
 // Menu items for navigation
 export const menuItems = [
-  { id: "home", text: "首页", href: "/", svg: "home", target: "_self" },
+  {
+    id: "home",
+    text: "首页",
+    href: "/",
+    svg: "material-symbols:home-outline-rounded",
+    target: "_self",
+  },
   {
     id: "blog",
     text: "博客",
     href: "/blog",
-    svg: "blog",
+    svg: "material-symbols:book-2-outline-rounded",
     target: "_self",
     subItems: [
       {
         id: "all",
         text: "归档",
         href: "/blog",
-        svg: "post",
+        svg: "material-symbols:ink-pen-outline-rounded",
         target: "_self",
       }, // All blog
       {
         id: "tech",
         text: "网络安全",
         href: "/blog/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/",
-        svg: "cube",
+        svg: "material-symbols:deployed-code-outline",
         target: "_self",
       }, // Technology category
       {
         id: "exec",
         text: "靶场练习",
         href: "/blog/tag/%E9%9D%B6%E5%9C%BA/",
-        svg: "heart",
+        svg: "material-symbols:earthquake-rounded",
         target: "_self",
       },
     ],
   }, // Blog page with sub-items
-{
+  {
     id: "project",
     text: "项目",
     href: "/project",
-    svg: "project",
+    svg: "material-symbols:code-blocks-outline",
     target: "_self",
   },
   {
     id: "contact",
     text: "Contact",
-    href: "mailto:contact.1693309049@qq.com", // Contact email
+    href: "mailto:contact.z1693309049@outlook.com", // Contact email
     target: "_blank", // Open in a new tab
-    svg: "contact",
+    svg: "material-symbols:attach-email-outline-rounded",
   },
 ];
 
@@ -81,18 +87,18 @@ export const socialIcons = [
     href: "https://github.com/trtyr",
     ariaLabel: "Github",
     title: "Github",
-    svg: "github",
+    svg: "ri:github-line",
   },
   {
     href: "https://space.bilibili.com/440805873",
     ariaLabel: "BiliBili",
     title: "BiliBili",
-    svg: "bilibili",
+    svg: "ri:bilibili-line",
   },
   {
     href: "/rss.xml",
     ariaLabel: "RSS Feed",
     title: "RSS Feed",
-    svg: "rss",
+    svg: "ri:rss-line",
   },
 ];

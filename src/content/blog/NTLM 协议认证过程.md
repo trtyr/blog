@@ -6,7 +6,7 @@ image: https://img.trtyr.top/images/blog/NTLM%20%E5%8D%8F%E8%AE%AE%E8%AE%A4%E8%A
 categories:
   - 网络安全
 tags:
-  - 内网渗透
+  - 网络协议
 ---
 
 ## SSPI

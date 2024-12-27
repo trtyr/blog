@@ -6,8 +6,7 @@ image: https://img.trtyr.top/images/blog/Linux%20Capabilities%E6%8F%90%E6%9D%83/
 categories:
   - 网络安全
 tags:
-  - 提权
-  - Linux
+  - Linux提权
 ---
 
 ## Capabilities

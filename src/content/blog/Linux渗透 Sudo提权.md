@@ -6,8 +6,7 @@ image: https://img.trtyr.top/images/blog/Linux%E6%B8%97%E9%80%8F%20Sudo%E6%8F%90
 categories:
   - 网络安全
 tags:
-  - 提权
-  - Linux
+  - Linux提权
 ---
 
 ## sudo 命令

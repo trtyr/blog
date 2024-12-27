@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 html {
+  @apply scroll-smooth;
+}
+
+html {
   font-family: "LXGW WenKai Lite", sans-serif;
   scroll-behavior: smooth;
   transition:
@@ -10,8 +14,22 @@ html {
     background-color 0.3s;
 }
 
-.no-card {
-  border-radius: var(--rounded-box, 1rem);
+@font-face {
+  font-family: "JetBrainsMonoNL NF";
+  src: url("https://img.trtyr.top/images/person/JetBrainsMonoNLNerdFont.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LXGW WenKai Lite";
+  src: url("https://img.trtyr.top/images/person/LXGWWenKai-Medium.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 .link-card a,
@@ -34,28 +52,30 @@ a {
 .main-card p,
 .main-card li,
 .main-card blockquote {
-  a {
-    @apply px-0.5 rounded-md font-medium;
-    color: oklch(var(--p));
-    transition:
-      background-color 0.3s,
-      background-size 0.3s,
-      background-position 0.3s ease;
-    box-decoration-break: clone;
-    background-image: linear-gradient(oklch(var(--p)), oklch(var(--p)));
-    background-size: 100% 2px;
-    background-position: left bottom;
-    background-repeat: no-repeat;
-  }
+  :not(#toc-phone) {
+    a {
+      @apply px-0.5 rounded-md font-medium;
+      color: oklch(var(--p));
+      transition:
+        background-color 0.3s,
+        background-size 0.3s,
+        background-position 0.3s ease;
+      box-decoration-break: clone;
+      background-image: linear-gradient(oklch(var(--p)), oklch(var(--p)));
+      background-size: 100% 2px;
+      background-position: left bottom;
+      background-repeat: no-repeat;
+    }
 
-  a:hover {
-    background-color: oklch(var(--p) / 0.3);
-    background-size: 0% 2px;
-  }
+    a:hover {
+      background-color: oklch(var(--p) / 0.3);
+      background-size: 0% 2px;
+    }
 
-  a:active {
-    background-color: oklch(var(--p) / 0.2);
-    background-size: 0% 2px;
+    a:active {
+      background-color: oklch(var(--p) / 0.2);
+      background-size: 0% 2px;
+    }
   }
 }
 
@@ -72,6 +92,15 @@ html[data-theme-type="light"] {
       background-color: oklch(var(--b3));
     }
   }
+}
+
+#catalogs::-webkit-scrollbar {
+  display: none;
+}
+
+#catalogs {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 html[data-theme-type="dark"] {
@@ -102,24 +131,6 @@ body {
 
 summary {
   list-style: none;
-}
-
-@font-face {
-  font-family: "JetBrainsMonoNL NF";
-  src: url("https://img.trtyr.top/images/person/JetBrainsMonoNLNerdFont.ttf")
-    format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "LXGW WenKai Lite";
-  src: url("https://img.trtyr.top/images/person/LXGWWenKai-Medium.woff2")
-    format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
 
 a {
@@ -183,6 +194,11 @@ input {
   background-color: oklch(var(--p) / 0.2);
 }
 
+.anchor-icon::before {
+  content: "#";
+  color: inherit;
+}
+
 h1:hover .anchor,
 h2:hover .anchor,
 h3:hover .anchor,
@@ -236,17 +252,39 @@ table {
 }
 
 table tr {
-  @apply h-10 border-0 border-gray-300;
+  @apply h-10 border-0;
   border-color: oklch(var(--nc));
 }
 
 code {
-  font-family: "JetBrainsMonoNL NF";
-  @apply text-xl p-[2px_5px] rounded-sm;
+  color: oklch(var(--bc));
+  font-family:
+    JetBrainsMonoNL NF,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    Liberation Mono,
+    Courier New,
+    monospace;
+  white-space: nowrap;
+  @apply bg-base-300 border border-solid rounded-md px-1 py-0.5 text-base shadow;
+  border-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
 }
 
 pre {
-  font-family: "LXGW WenKai Lite";
+  font-family:
+    LXGW WenKai Lite,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    Liberation Mono,
+    Courier New,
+    monospace;
   padding: 10px;
 }
 
@@ -314,7 +352,15 @@ thead th {
 }
 
 .highlight .code-lang {
-  font-family: "JetBrainsMonoNL NF";
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    Liberation Mono,
+    Courier New,
+    monospace;
   user-select: none;
 }
 
@@ -325,9 +371,8 @@ thead th {
 .main-card p,
 .main-card ol,
 .main-card ul,
-.main-card li,
 .timeline-box {
-  @apply my-2 leading-normal;
+  @apply my-3 leading-relaxed;
 }
 
 .image-link {
@@ -386,6 +431,14 @@ thead th {
   z-index: 10;
 }
 
+.btn-category {
+  @apply bg-primary/10 hover:bg-primary text-primary hover:text-primary-content border-none hover:scale-110 transition-all duration-300;
+}
+
+.btn-tag {
+  @apply bg-secondary/10 hover:bg-secondary text-secondary hover:text-secondary-content border-none hover:scale-110 transition-all duration-300;
+}
+
 .timeline {
   @apply pl-0;
 }
@@ -395,7 +448,7 @@ thead th {
 }
 
 .footnotes {
-  @apply alert;
+  @apply border-solid border-2 mt-8 mb-2 transition-all rounded-xl p-8;
 }
 
 .swup-progress-bar {
@@ -407,9 +460,9 @@ thead th {
   transform: translateY(50px);
   animation: fadeInUp 0.5s ease forwards;
 
-  @for $i from 1 through 10 {
+  @for $i from 1 through 100 {
     &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.1}s;
+      animation-delay: #{$i * 0.05}s;
     }
   }
 }

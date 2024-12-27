@@ -10,13 +10,16 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeExternalLinks from 'rehype-external-links';
 import playformCompress from "@playform/compress";
-import partytown from "@astrojs/partytown";
 
 import swup from "@swup/astro";
 import astroI18next from "astro-i18next";
 
+import { transformers } from './src/config/transformers.js';
+
+import { rehypeFadeInUp } from './src/plugins/rehype-fade-in-up.mjs';
 import { remarkAddAnchor } from './src/plugins/remark-add-anchor.mjs';
 import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
+import { remarkHeadingExtractor } from './src/plugins/remark-heading-extractor.mjs';
 
 
 const { USER_SITE } = await import('./src/consts.ts');
@@ -30,7 +33,13 @@ export default defineConfig({
       includePaths: ["./src/styles"],
     },
   },
-  integrations: [mdx(), icon(), swup({
+  integrations: [mdx(),
+  icon({
+    include: {
+      mdi: ["*"], // (Default) Loads entire Material Design Icon set
+    },
+  }),
+  swup({
     cache: true,
     progress: true,
     accessibility: true,
@@ -51,84 +60,10 @@ export default defineConfig({
         light: CODE_THEME.light,
         dark: CODE_THEME.dark,
       },
-      transformers: [
-        {
-          preprocess(code, { lang }) {
-            this.lang = lang;
-            return code;
-          },
-          root(node) {
-            if (node.tagName === "pre") {
-              node.tagName = "figure";
-              node.properties.className = ["highlight", this.lang];
-            }
-          },
-          pre(node) {
-            const toolsDiv = {
-              type: "element",
-              tagName: "div",
-              properties: { className: ["highlight-tools"] },
-              children: [
-                {
-                  type: "element",
-                  tagName: "div",
-                  properties: { className: ["code-lang"] },
-                  children: [{ type: "text", value: this.lang.toUpperCase() }],
-                },
-              ],
-            };
-            const lineNumberCode = {
-              type: "element",
-              tagName: "code",
-              children: [],
-            };
-            const lineNumberPre = {
-              type: "element",
-              tagName: "pre",
-              properties: { className: ["frosti-code", "gutter"] },
-              children: [lineNumberCode],
-            };
-            const codeContentPre = {
-              type: "element",
-              tagName: "pre",
-              properties: { className: ["frosti-code", "code"] },
-              children: [],
-            };
-            node.children.forEach((lineNode, index, count) => {
-              count = 0;
-              lineNode.children.forEach(() => {
-                if (count & (1 === 1)) {
-                  lineNumberCode.children.push({
-                    type: "element",
-                    tagName: "div",
-                    properties: { className: ["line"] },
-                    children: [{ type: "text", value: String(index + 1) }],
-                  });
-                  index++;
-                }
-                count++;
-              });
-
-              codeContentPre.children.push(lineNode);
-            });
-            const table = {
-              type: "element",
-              tagName: "div",
-              properties: { className: ["highlight-code"] },
-              children: [lineNumberPre, codeContentPre],
-            };
-            return {
-              type: "element",
-              tagName: "figure",
-              properties: { className: ["highlight", this.lang] },
-              children: [toolsDiv, table],
-            };
-          },
-        },
-      ],
+      transformers: transformers
     },
-    remarkPlugins: [remarkMath, remarkAddAnchor, remarkReadingTime],
-    rehypePlugins: [rehypeKatex,
+    remarkPlugins: [remarkMath, remarkAddAnchor, remarkReadingTime, remarkHeadingExtractor],
+    rehypePlugins: [rehypeKatex, rehypeFadeInUp,
       [
         rehypeExternalLinks,
         {
@@ -196,5 +131,14 @@ export default defineConfig({
           }
         }
       ]],
+  },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
   },
 });

@@ -6,7 +6,7 @@ image: https://img.trtyr.top/images/blog/Python%E5%AE%9E%E7%8E%B0Telegram%E8%87%
 categories:
   - 其他
 tags:
-  - Telegram
+  - 其他
 ---
 
 下午突然想起来 Telegram 好几天没签到了，每次手动签到我也厌倦了，于是研究了一下写了个简易的Python 脚本
